@@ -14,37 +14,97 @@
       </a>
       <nav aria-label="주요 메뉴">
         <a class="active" href="/">홈</a>
+        <a href="#archive">회차 찾기</a>
         <a href="/scenarios.html">시나리오 관리</a>
       </nav>
     </header>
 
-    <main class="home-main">
-      <section class="home-poster" aria-label="Riding-star 방송 안내">
-        <img src="/assets/riding-star-main.png" alt="자전거 토크쇼 Riding Star 방송 안내 포스터">
-      </section>
-
-      <section class="home-menu" aria-label="시나리오 메뉴">
-        <div class="home-title">
-          <span class="status-chip">방송 제작실</span>
-          <h1>Riding-star</h1>
-          <p>회차별 방송 시나리오를 정리하고 공유합니다.</p>
+    <main class="home-dashboard">
+      <section class="home-hero" aria-label="Riding-star 홈">
+        <div class="home-poster">
+          <img src="/assets/riding-star-main.png" alt="자전거 토크쇼 Riding Star 방송 안내 포스터">
         </div>
 
-        <div class="home-menu-grid">
-          <a class="home-menu-card primary" href="/scenarios.html">
-            <strong>시나리오 관리</strong>
-            <span>시간표, 대본, 음악, 정리</span>
-          </a>
-          <a class="home-menu-card" href="/scenarios.html#import">
-            <strong>MD 가져오기</strong>
-            <span>작성한 MD를 회차로 변환</span>
-          </a>
-          <a class="home-menu-card" href="/scenarios.html#script">
-            <strong>대본 보기</strong>
-            <span>오프닝, 토크, 엔딩 분리</span>
-          </a>
+        <div class="home-overview">
+          <div class="home-title">
+            <span class="status-chip">방송 제작실</span>
+            <h1>Riding-star</h1>
+            <p>자전거 이야기를 회차별로 등록하고, 팀원과 청취자가 함께 확인할 수 있는 방송 시나리오 공간입니다.</p>
+          </div>
+
+          <div class="home-stats" aria-label="등록 현황">
+            <div>
+              <strong id="episodeCount">0</strong>
+              <span>등록 회차</span>
+            </div>
+            <div>
+              <strong id="latestDate">-</strong>
+              <span>최근 방송일</span>
+            </div>
+          </div>
+
+          <div class="home-menu-grid" aria-label="전체 메뉴">
+            <a class="home-menu-card primary" href="/scenarios.html">
+              <strong>시나리오 관리</strong>
+              <span>시간표, 대본, 음악, PDF</span>
+            </a>
+            <a class="home-menu-card" href="#archive">
+              <strong>회차 검색</strong>
+              <span>년, 월, 일과 키워드로 찾기</span>
+            </a>
+            <a class="home-menu-card" href="/scenarios.html#import">
+              <strong>MD 가져오기</strong>
+              <span>작성한 MD를 회차로 변환</span>
+            </a>
+            <a class="home-menu-card" href="/scenarios.html#script">
+              <strong>대본 보기</strong>
+              <span>오프닝, 토크, 엔딩 분리</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="archive" class="archive-section" aria-label="회차별 방송 아카이브">
+        <div class="archive-head">
+          <div>
+            <span class="status-chip">공개 아카이브</span>
+            <h2>회차별 방송 내용</h2>
+            <p>등록된 회차는 다른 사람들도 읽기 전용 페이지에서 확인할 수 있습니다.</p>
+          </div>
+          <a class="button" href="/scenarios.html">새 회차 등록</a>
+        </div>
+
+        <div class="archive-tools">
+          <label>
+            <span>검색</span>
+            <input id="archiveSearch" class="input" type="search" placeholder="제목, 게스트, 키워드">
+          </label>
+          <label>
+            <span>년</span>
+            <select id="yearFilter" class="input">
+              <option value="">전체</option>
+            </select>
+          </label>
+          <label>
+            <span>월</span>
+            <select id="monthFilter" class="input">
+              <option value="">전체</option>
+            </select>
+          </label>
+          <label>
+            <span>일</span>
+            <select id="dayFilter" class="input">
+              <option value="">전체</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="archiveList" class="archive-list">
+          <p class="empty-preview">회차를 불러오는 중입니다.</p>
         </div>
       </section>
     </main>
+
+    <script src="/home.js"></script>
   </body>
 </html>

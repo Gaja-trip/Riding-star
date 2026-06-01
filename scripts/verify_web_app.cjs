@@ -119,27 +119,36 @@ async function main() {
     assert.ok(state.episodes.length > 0, "At least one episode should exist.");
 
     const homeHtml = await requestText("/");
-    const html = await requestText("/scenarios.html");
+    const scenarioHtml = await requestText("/scenarios.html");
+    const episodeHtml = await requestText("/episode.html");
     const css = await requestText("/styles.css");
+    const homeJs = await requestText("/home.js");
     const appJs = await requestText("/app.js");
+    const episodeJs = await requestText("/episode.js");
     const printHtml = await requestText("/print.html");
     const printJs = await requestText("/print.js");
 
     assert.ok(homeHtml.includes("riding-star-main.png"));
-    assert.ok(homeHtml.includes("시나리오 관리"));
-    assert.ok(html.includes("Riding-star Scenario Hub"));
-    assert.ok(html.includes("MD 가져오기"));
-    assert.ok(html.includes("PDF 내보내기"));
-    assert.ok(css.includes("[hidden]"));
+    assert.ok(homeHtml.includes("archiveSearch"));
+    assert.ok(homeJs.includes("/episode.html"));
+    assert.ok(scenarioHtml.includes("Riding-star Scenario Hub"));
+    assert.ok(scenarioHtml.includes("importMdBtn"));
+    assert.ok(scenarioHtml.includes("exportPdfBtn"));
+    assert.ok(episodeHtml.includes("episodeRoot"));
+    assert.ok(css.includes("archive-section"));
+    assert.ok(css.includes("episode-viewer"));
+    assert.ok(homeJs.includes("parseEpisodeDate"));
+    assert.ok(homeJs.includes("archiveList"));
     assert.ok(appJs.includes("parseMarkdownScenario"));
-    assert.ok(printHtml.includes("PDF 저장/인쇄"));
-    assert.ok(printJs.includes("전체 방송 시간표"));
+    assert.ok(episodeJs.includes("renderEpisode"));
+    assert.ok(printHtml.includes("printBtn"));
+    assert.ok(printJs.includes("renderEpisode"));
 
     const savePayload = JSON.stringify({
       clientVersion: state.version,
       state,
-      editor: "검수",
-      note: "검수 저장",
+      editor: "verify",
+      note: "verify save",
     });
     const saved = await requestJson("POST", "/api/save", savePayload);
     assert.equal(saved.version, state.version + 1);
