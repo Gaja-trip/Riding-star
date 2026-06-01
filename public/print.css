@@ -1,0 +1,165 @@
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", "Malgun Gothic", system-ui, sans-serif;
+  color: #1f1d1a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #ece7df;
+}
+
+.print-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #d8d1c6;
+  background: #fffdf8;
+  padding: 12px 18px;
+}
+
+.print-toolbar button {
+  min-height: 36px;
+  border: 1px solid #cfc6b8;
+  border-radius: 6px;
+  background: #fff;
+  color: #1f1d1a;
+  padding: 7px 12px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.print-root {
+  width: min(920px, calc(100% - 32px));
+  margin: 24px auto;
+  background: #fff;
+  padding: 42px 48px;
+  box-shadow: 0 20px 50px rgba(40, 34, 28, 0.14);
+}
+
+.cover {
+  border-bottom: 3px solid #1d7a64;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #1d7a64;
+  font-weight: 800;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 32px;
+  line-height: 1.18;
+}
+
+h2 {
+  break-after: avoid;
+  border-bottom: 1px solid #d8d1c6;
+  margin: 28px 0 12px;
+  padding-bottom: 6px;
+  font-size: 20px;
+}
+
+h3 {
+  break-after: avoid;
+  margin: 18px 0 8px;
+  color: #125847;
+  font-size: 16px;
+}
+
+p {
+  line-height: 1.72;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 18px 0 4px;
+}
+
+.meta-item {
+  border: 1px solid #d8d1c6;
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.meta-item span {
+  display: block;
+  margin-bottom: 3px;
+  color: #746b5f;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0 18px;
+  font-size: 13px;
+}
+
+th,
+td {
+  border: 1px solid #d8d1c6;
+  padding: 7px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f0ebe2;
+  color: #4d463d;
+}
+
+.script-section {
+  break-inside: avoid;
+  margin-bottom: 18px;
+}
+
+.script-text {
+  white-space: pre-wrap;
+  line-height: 1.76;
+}
+
+.notes {
+  white-space: pre-wrap;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  body {
+    background: white;
+  }
+
+  .print-toolbar {
+    display: none;
+  }
+
+  .print-root {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  h2 {
+    page-break-after: avoid;
+  }
+}

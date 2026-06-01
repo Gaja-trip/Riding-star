@@ -40,12 +40,11 @@ function saveState(state) {
 }
 
 function sendJson(res, statusCode, payload) {
-  const body = JSON.stringify(payload);
   res.writeHead(statusCode, {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
   });
-  res.end(body);
+  res.end(JSON.stringify(payload));
 }
 
 function sendText(res, statusCode, text, contentType = "text/plain; charset=utf-8") {
@@ -89,14 +88,16 @@ function sanitizeState(candidate, previousState, editor, note) {
     status: String(episode.status || "초안"),
     keywords: String(episode.keywords || ""),
     summary: String(episode.summary || ""),
-    rundown: Array.isArray(episode.rundown) ? episode.rundown.map((row) => ({
-      id: String(row.id || `run-${Date.now()}-${Math.random()}`),
-      segment: String(row.segment || ""),
-      time: String(row.time || ""),
-      duration: String(row.duration || ""),
-      details: String(row.details || ""),
-      cast: String(row.cast || ""),
-    })) : [],
+    rundown: Array.isArray(episode.rundown)
+      ? episode.rundown.map((row) => ({
+          id: String(row.id || `run-${Date.now()}-${Math.random()}`),
+          segment: String(row.segment || ""),
+          time: String(row.time || ""),
+          duration: String(row.duration || ""),
+          details: String(row.details || ""),
+          cast: String(row.cast || ""),
+        }))
+      : [],
     script: {
       opening: String(episode.script?.opening || ""),
       talk1: String(episode.script?.talk1 || ""),
@@ -105,20 +106,24 @@ function sanitizeState(candidate, previousState, editor, note) {
       closingQuestion: String(episode.script?.closingQuestion || ""),
       ending: String(episode.script?.ending || ""),
     },
-    music: Array.isArray(episode.music) ? episode.music.map((track) => ({
-      id: String(track.id || `music-${Date.now()}-${Math.random()}`),
-      timing: String(track.timing || ""),
-      title: String(track.title || ""),
-      artist: String(track.artist || ""),
-      recommendedBy: String(track.recommendedBy || ""),
-      reason: String(track.reason || ""),
-      rightsNote: String(track.rightsNote || ""),
-    })) : [],
+    music: Array.isArray(episode.music)
+      ? episode.music.map((track) => ({
+          id: String(track.id || `music-${Date.now()}-${Math.random()}`),
+          timing: String(track.timing || ""),
+          title: String(track.title || ""),
+          artist: String(track.artist || ""),
+          recommendedBy: String(track.recommendedBy || ""),
+          reason: String(track.reason || ""),
+          rightsNote: String(track.rightsNote || ""),
+        }))
+      : [],
     notes: String(episode.notes || ""),
     updatedAt: new Date().toISOString(),
   }));
 
-  const changeLog = Array.isArray(previousState.changeLog) ? previousState.changeLog.slice(-49) : [];
+  const changeLog = Array.isArray(previousState.changeLog)
+    ? previousState.changeLog.slice(-49)
+    : [];
   changeLog.push({
     id: `change-${Date.now()}`,
     editor: editor || "이름 없음",
@@ -135,7 +140,85 @@ function sanitizeState(candidate, previousState, editor, note) {
   };
 }
 
-function stateToMarkdown(state) {
+function mdCell(value) {
+  return String(value || "")
+    .replace(/\|/g, "\\|")
+    .replace(/\r?\n/g, "<br>");
+}
+
+function episodeToMarkdown(episode) {
+  const lines = [];
+  lines.push(`## ${episode.episodeNo || "회차 미정"} ${episode.title || ""}`.trim());
+  lines.push("");
+  lines.push(`- 주제: ${episode.theme || ""}`);
+  lines.push(`- 게스트: ${episode.guest || ""}`);
+  lines.push(`- 진행: ${episode.hosts || ""}`);
+  lines.push(`- 방송국: ${episode.station || ""}`);
+  lines.push(`- 녹음일: ${episode.recordDate || ""}`);
+  lines.push(`- 방송일: ${episode.airDate || ""}`);
+  lines.push(`- 장소: ${episode.location || ""}`);
+  lines.push(`- 러닝타임: ${episode.duration || ""}`);
+  lines.push(`- 상태: ${episode.status || ""}`);
+  lines.push(`- 키워드: ${episode.keywords || ""}`);
+  lines.push("");
+
+  if (episode.summary) {
+    lines.push("### 회차 요약");
+    lines.push("");
+    lines.push(episode.summary);
+    lines.push("");
+  }
+
+  lines.push("### 전체 방송 시간표");
+  lines.push("");
+  lines.push("| 구성 | 시간 | 길이 | 세부사항 | 출연 |");
+  lines.push("|---|---:|---:|---|---|");
+  episode.rundown.forEach((row) => {
+    lines.push(
+      `| ${mdCell(row.segment)} | ${mdCell(row.time)} | ${mdCell(row.duration)} | ${mdCell(row.details)} | ${mdCell(row.cast)} |`,
+    );
+  });
+  lines.push("");
+
+  [
+    ["오프닝 멘트", episode.script.opening],
+    ["토크 1", episode.script.talk1],
+    ["토크 2", episode.script.talk2],
+    ["토크 3", episode.script.talk3],
+    ["마무리 질문", episode.script.closingQuestion],
+    ["엔딩 멘트", episode.script.ending],
+  ].forEach(([title, text]) => {
+    lines.push(`### ${title}`);
+    lines.push("");
+    lines.push(text || "");
+    lines.push("");
+  });
+
+  lines.push("### 게스트 추천 음악");
+  lines.push("");
+  lines.push("| 순서 | 곡명 | 가수 | 추천자 | 추천 이유 | 저작권/송출 확인 |");
+  lines.push("|---|---|---|---|---|---|");
+  episode.music.forEach((track) => {
+    lines.push(
+      `| ${mdCell(track.timing)} | ${mdCell(track.title)} | ${mdCell(track.artist)} | ${mdCell(track.recommendedBy)} | ${mdCell(track.reason)} | ${mdCell(track.rightsNote)} |`,
+    );
+  });
+  lines.push("");
+
+  if (episode.notes) {
+    lines.push("### 방송 후 메모");
+    lines.push("");
+    lines.push(episode.notes);
+    lines.push("");
+  }
+
+  return lines.join("\n");
+}
+
+function stateToMarkdown(state, episodeId) {
+  const episodes = episodeId
+    ? state.episodes.filter((episode) => episode.id === episodeId)
+    : state.episodes;
   const lines = [
     "# Riding-star 방송 시나리오 공유본",
     "",
@@ -143,58 +226,12 @@ function stateToMarkdown(state) {
     "",
   ];
 
-  state.episodes.forEach((episode) => {
-    lines.push(`## ${episode.episodeNo || "회차 미정"} ${episode.title || ""}`.trim());
-    lines.push("");
-    lines.push(`- 주제: ${episode.theme || ""}`);
-    lines.push(`- 게스트: ${episode.guest || ""}`);
-    lines.push(`- 진행: ${episode.hosts || ""}`);
-    lines.push(`- 녹음: ${episode.recordDate || ""} / 방송: ${episode.airDate || ""}`);
-    lines.push(`- 장소: ${episode.location || ""}`);
-    lines.push(`- 상태: ${episode.status || ""}`);
-    lines.push("");
-
-    lines.push("### 전체 시간표");
-    lines.push("");
-    lines.push("| 구성 | 시간 | 길이 | 세부사항 | 출연 |");
-    lines.push("|---|---:|---:|---|---|");
-    episode.rundown.forEach((row) => {
-      lines.push(`| ${row.segment} | ${row.time} | ${row.duration} | ${(row.details || "").replace(/\n/g, "<br>")} | ${row.cast} |`);
-    });
-    lines.push("");
-
-    [
-      ["오프닝 멘트", episode.script.opening],
-      ["토크 1", episode.script.talk1],
-      ["토크 2", episode.script.talk2],
-      ["토크 3", episode.script.talk3],
-      ["마무리 질문", episode.script.closingQuestion],
-      ["엔딩 멘트", episode.script.ending],
-    ].forEach(([title, text]) => {
-      lines.push(`### ${title}`);
-      lines.push("");
-      lines.push(text || "");
-      lines.push("");
-    });
-
-    lines.push("### 게스트 추천 음악");
-    lines.push("");
-    lines.push("| 순서 | 곡명 | 가수 | 추천자 | 추천 이유 | 저작권/송출 확인 |");
-    lines.push("|---|---|---|---|---|---|");
-    episode.music.forEach((track) => {
-      lines.push(`| ${track.timing} | ${track.title} | ${track.artist} | ${track.recommendedBy} | ${track.reason} | ${track.rightsNote} |`);
-    });
-    lines.push("");
-
-    if (episode.notes) {
-      lines.push("### 방송 후 메모");
-      lines.push("");
-      lines.push(episode.notes);
-      lines.push("");
-    }
+  episodes.forEach((episode, index) => {
+    if (index > 0) lines.push("");
+    lines.push(episodeToMarkdown(episode));
   });
 
-  return lines.join("\n");
+  return `${lines.join("\n").trim()}\n`;
 }
 
 function serveStatic(req, res, pathname) {
@@ -255,10 +292,10 @@ async function handleRequest(req, res) {
     }
 
     if (req.method === "GET" && url.pathname === "/api/export.md") {
-      const markdown = stateToMarkdown(loadState());
+      const markdown = stateToMarkdown(loadState(), url.searchParams.get("episode"));
       res.writeHead(200, {
         "Content-Type": "text/markdown; charset=utf-8",
-        "Content-Disposition": 'attachment; filename="riding-star-scenarios.md"',
+        "Content-Disposition": 'attachment; filename="riding-star-scenario.md"',
       });
       res.end(markdown);
       return;
@@ -274,7 +311,7 @@ fs.mkdirSync(DATA_DIR, { recursive: true });
 
 const server = http.createServer(handleRequest);
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Riding-star scenario hub is running.`);
+  console.log("Riding-star scenario hub is running.");
   console.log(`Local:   http://localhost:${PORT}`);
   console.log(`Network: http://<이 컴퓨터의 IP>:${PORT}`);
 });

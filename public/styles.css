@@ -415,6 +415,41 @@ button {
   gap: 14px;
 }
 
+.script-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+  gap: 16px;
+}
+
+.script-view-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+}
+
+.script-view-tab {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #f0ebe2;
+  color: var(--muted);
+  min-height: 34px;
+  padding: 7px 11px;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.script-view-tab.active {
+  border-color: var(--accent);
+  background: #e2f0eb;
+  color: var(--accent-dark);
+}
+
+.script-grid.single {
+  grid-template-columns: 1fr;
+}
+
 .script-field {
   display: grid;
   gap: 8px;
@@ -428,6 +463,52 @@ button {
 .script-field label {
   color: var(--muted);
   font-weight: 800;
+}
+
+.script-preview {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfaf6;
+  min-height: 360px;
+  padding: 14px;
+}
+
+.script-preview-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.script-preview-head h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.script-preview-text {
+  max-height: 520px;
+  overflow: auto;
+  line-height: 1.7;
+}
+
+.script-preview-text h4 {
+  margin: 18px 0 6px;
+  color: var(--accent-dark);
+  font-size: 15px;
+}
+
+.script-preview-text h4:first-child {
+  margin-top: 0;
+}
+
+.script-preview-text p {
+  margin: 0 0 12px;
+  white-space: normal;
+}
+
+.empty-preview {
+  color: var(--muted);
 }
 
 .full-field {
@@ -461,6 +542,70 @@ button {
   color: var(--muted);
   font-size: 12px;
   line-height: 1.4;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  background: rgba(36, 32, 27, 0.42);
+  padding: 18px;
+}
+
+.modal {
+  width: min(920px, 100%);
+  max-height: calc(100vh - 36px);
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 24px 70px rgba(24, 20, 16, 0.24);
+  padding: 18px;
+}
+
+.modal-head,
+.modal-actions,
+.import-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-head {
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.modal-head h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+}
+
+.modal-head p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.import-tools {
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.file-button {
+  display: inline-flex;
+  align-items: center;
+}
+
+.import-textarea {
+  min-height: 360px;
+  font-family: "Segoe UI", "Malgun Gothic", system-ui, sans-serif;
+}
+
+.modal-actions {
+  justify-content: flex-end;
+  margin-top: 12px;
 }
 
 @media (max-width: 1180px) {
@@ -504,7 +649,14 @@ button {
 
   .meta-panel,
   .script-grid,
+  .script-layout,
   .change-log {
     grid-template-columns: 1fr;
+  }
+
+  .modal-head,
+  .modal-actions {
+    align-items: stretch;
+    flex-direction: column;
   }
 }

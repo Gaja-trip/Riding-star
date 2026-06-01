@@ -121,10 +121,16 @@ async function main() {
     const html = await requestText("/");
     const css = await requestText("/styles.css");
     const appJs = await requestText("/app.js");
+    const printHtml = await requestText("/print.html");
+    const printJs = await requestText("/print.js");
 
     assert.ok(html.includes("Riding-star Scenario Hub"));
+    assert.ok(html.includes("MD 가져오기"));
+    assert.ok(html.includes("PDF 내보내기"));
     assert.ok(css.includes("[hidden]"));
-    assert.ok(appJs.includes("SCRIPT_FIELDS"));
+    assert.ok(appJs.includes("parseMarkdownScenario"));
+    assert.ok(printHtml.includes("PDF 저장/인쇄"));
+    assert.ok(printJs.includes("전체 방송 시간표"));
 
     const savePayload = JSON.stringify({
       clientVersion: state.version,

@@ -39,7 +39,9 @@
           <div class="top-actions">
             <span id="saveState" class="save-state">불러오는 중</span>
             <button id="reloadBtn" class="icon-button" type="button" title="새로고침" aria-label="새로고침">↻</button>
-            <button id="exportBtn" class="button" type="button">MD 내보내기</button>
+            <button id="importMdBtn" class="button" type="button">MD 가져오기</button>
+            <button id="exportMdBtn" class="button" type="button">MD 내보내기</button>
+            <button id="exportPdfBtn" class="button" type="button">PDF 내보내기</button>
             <button id="saveBtn" class="button primary" type="button">저장</button>
           </div>
         </header>
@@ -138,9 +140,19 @@
         <section id="scriptPanel" class="panel" aria-label="방송 대본">
           <div class="panel-head">
             <h2>방송 대본</h2>
-            <span class="muted">오프닝, 토크, 마무리, 엔딩</span>
+            <span class="muted">섹션별 입력과 보기</span>
           </div>
-          <div id="scriptFields" class="script-grid"></div>
+          <div id="scriptViewTabs" class="script-view-tabs" aria-label="대본 섹션"></div>
+          <div class="script-layout">
+            <div id="scriptFields" class="script-grid"></div>
+            <aside class="script-preview" aria-label="대본 미리보기">
+              <div class="script-preview-head">
+                <h3 id="scriptPreviewTitle">전체 대본</h3>
+                <button id="copyScriptBtn" class="button" type="button">복사</button>
+              </div>
+              <div id="scriptPreviewText" class="script-preview-text"></div>
+            </aside>
+          </div>
         </section>
 
         <section id="musicPanel" class="panel" aria-label="게스트 추천 음악">
@@ -189,6 +201,32 @@
         </div>
         <div id="changeLog" class="change-log"></div>
       </aside>
+    </div>
+
+    <div id="importModal" class="modal-backdrop" hidden>
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="importTitle">
+        <header class="modal-head">
+          <div>
+            <h2 id="importTitle">MD 시나리오 가져오기</h2>
+            <p>붙여넣은 Markdown에서 시간표, 대본, 음악 표를 자동으로 채웁니다.</p>
+          </div>
+          <button id="closeImportBtn" class="icon-button" type="button" title="닫기" aria-label="닫기">×</button>
+        </header>
+
+        <div class="import-tools">
+          <label class="button file-button" for="mdFileInput">MD 파일 선택</label>
+          <input id="mdFileInput" type="file" accept=".md,.markdown,text/markdown,text/plain" hidden>
+          <button id="useSampleMdBtn" class="button" type="button">예시 불러오기</button>
+          <span id="importStatus" class="muted"></span>
+        </div>
+
+        <textarea id="mdImportText" class="textarea import-textarea" placeholder="# Riding-star 방송 시나리오&#10;&#10;## EP.01 제목&#10;- 주제: ...&#10;&#10;### 전체 방송 시간표&#10;| 구성 | 시간 | 길이 | 세부사항 | 출연 |&#10;|---|---|---|---|---|"></textarea>
+
+        <div class="modal-actions">
+          <button id="importCurrentBtn" class="button primary" type="button">현재 회차에 적용</button>
+          <button id="importNewBtn" class="button" type="button">새 회차로 추가</button>
+        </div>
+      </section>
     </div>
 
     <script src="/app.js"></script>
