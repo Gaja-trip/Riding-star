@@ -144,7 +144,7 @@ async function loadPrintView() {
 
 document.querySelector("#printBtn").addEventListener("click", () => window.print());
 document.querySelector("#backBtn").addEventListener("click", () => {
-  window.location.href = "/";
+  window.location.href = "/scenarios.html";
 });
 
 loadPrintView().catch((error) => {

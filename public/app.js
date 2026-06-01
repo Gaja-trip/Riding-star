@@ -287,6 +287,15 @@ function renderAll() {
   renderActivity();
 }
 
+function activateMainTab(tabName) {
+  const tabButton = document.querySelector(`[data-tab="${tabName}"]`);
+  if (!tabButton) return;
+
+  document.querySelectorAll(".tab").forEach((tab) => tab.classList.toggle("active", tab === tabButton));
+  document.querySelectorAll(".panel").forEach((panel) => panel.classList.remove("active"));
+  document.querySelector(`#${tabName}Panel`)?.classList.add("active");
+}
+
 async function loadState(force = false) {
   if (dirty && force) {
     const shouldLoad = window.confirm("저장되지 않은 수정이 있습니다. 최신본을 불러올까요?");
@@ -307,6 +316,19 @@ async function loadState(force = false) {
     }
   } catch (error) {
     setSaveState("연결 오류", "error");
+  }
+}
+
+function handleInitialHash() {
+  if (window.location.hash === "#import") {
+    openImportModal();
+    history.replaceState(null, "", window.location.pathname);
+    return;
+  }
+
+  if (window.location.hash === "#script") {
+    activateMainTab("script");
+    history.replaceState(null, "", window.location.pathname);
   }
 }
 
@@ -743,9 +765,7 @@ document.addEventListener("click", (event) => {
 
   const tabButton = target.closest("[data-tab]");
   if (tabButton) {
-    document.querySelectorAll(".tab").forEach((tab) => tab.classList.toggle("active", tab === tabButton));
-    document.querySelectorAll(".panel").forEach((panel) => panel.classList.remove("active"));
-    document.querySelector(`#${tabButton.dataset.tab}Panel`)?.classList.add("active");
+    activateMainTab(tabButton.dataset.tab);
     return;
   }
 
@@ -908,5 +928,7 @@ window.addEventListener("beforeunload", (event) => {
   event.returnValue = "";
 });
 
-loadState(true);
+window.addEventListener("hashchange", handleInitialHash);
+
+loadState(true).then(handleInitialHash);
 setInterval(() => loadState(false), 7000);

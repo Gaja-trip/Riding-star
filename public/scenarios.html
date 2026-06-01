@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Riding-star Scenario Hub</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="회차 목록">
+        <div class="brand">
+          <span class="brand-mark">RS</span>
+          <div>
+            <strong>Riding-star</strong>
+            <small>Scenario Hub</small>
+          </div>
+        </div>
+
+        <nav class="side-nav" aria-label="주요 메뉴">
+          <a href="/">홈</a>
+          <a class="active" href="/scenarios.html">시나리오 관리</a>
+        </nav>
+
+        <label class="field-label" for="editorName">작성자</label>
+        <input id="editorName" class="input" autocomplete="name" placeholder="이름">
+
+        <div class="sidebar-actions">
+          <button id="addEpisodeBtn" class="button primary" type="button">새 회차</button>
+          <button id="duplicateEpisodeBtn" class="button" type="button">복제</button>
+        </div>
+
+        <div id="episodeList" class="episode-list"></div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="title-block">
+            <span id="episodeStatus" class="status-chip">초안</span>
+            <h1 id="episodeHeading">Riding-star</h1>
+            <p id="episodeSubheading"></p>
+          </div>
+
+          <div class="top-actions">
+            <span id="saveState" class="save-state">불러오는 중</span>
+            <button id="reloadBtn" class="icon-button" type="button" title="새로고침" aria-label="새로고침">↻</button>
+            <button id="importMdBtn" class="button" type="button">MD 가져오기</button>
+            <button id="exportMdBtn" class="button" type="button">MD 내보내기</button>
+            <button id="exportPdfBtn" class="button" type="button">PDF 내보내기</button>
+            <button id="saveBtn" class="button primary" type="button">저장</button>
+          </div>
+        </header>
+
+        <div id="conflictBanner" class="conflict-banner" hidden>
+          <span>다른 사용자의 최신 수정본이 먼저 저장되었습니다.</span>
+          <button id="loadLatestBtn" class="button warning" type="button">최신본 불러오기</button>
+        </div>
+
+        <section class="meta-panel" aria-label="회차 기본 정보">
+          <label>
+            <span>회차</span>
+            <input class="input" data-field="episodeNo">
+          </label>
+          <label>
+            <span>제목</span>
+            <input class="input" data-field="title">
+          </label>
+          <label>
+            <span>주제</span>
+            <input class="input" data-field="theme">
+          </label>
+          <label>
+            <span>게스트</span>
+            <input class="input" data-field="guest">
+          </label>
+          <label>
+            <span>진행</span>
+            <input class="input" data-field="hosts">
+          </label>
+          <label>
+            <span>방송국</span>
+            <input class="input" data-field="station">
+          </label>
+          <label>
+            <span>녹음일</span>
+            <input class="input" data-field="recordDate">
+          </label>
+          <label>
+            <span>방송일</span>
+            <input class="input" data-field="airDate">
+          </label>
+          <label>
+            <span>장소</span>
+            <input class="input" data-field="location">
+          </label>
+          <label>
+            <span>러닝타임</span>
+            <input class="input" data-field="duration">
+          </label>
+          <label>
+            <span>상태</span>
+            <select class="input" data-field="status">
+              <option>초안</option>
+              <option>팀 검토</option>
+              <option>수정 중</option>
+              <option>녹음 확정</option>
+              <option>방송 완료</option>
+            </select>
+          </label>
+          <label>
+            <span>키워드</span>
+            <input class="input" data-field="keywords">
+          </label>
+        </section>
+
+        <nav class="tabs" aria-label="편집 탭">
+          <button class="tab active" data-tab="rundown" type="button">시간표</button>
+          <button class="tab" data-tab="script" type="button">대본</button>
+          <button class="tab" data-tab="music" type="button">음악</button>
+          <button class="tab" data-tab="notes" type="button">정리</button>
+        </nav>
+
+        <section id="rundownPanel" class="panel active" aria-label="전체 방송 시간표">
+          <div class="panel-head">
+            <h2>전체 방송 시간표</h2>
+            <button id="addRundownBtn" class="button" type="button">구성 추가</button>
+          </div>
+          <div class="table-wrap">
+            <table class="edit-table">
+              <thead>
+                <tr>
+                  <th>구성</th>
+                  <th>시간</th>
+                  <th>길이</th>
+                  <th>세부사항</th>
+                  <th>출연</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rundownRows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="scriptPanel" class="panel" aria-label="방송 대본">
+          <div class="panel-head">
+            <h2>방송 대본</h2>
+            <span class="muted">섹션별 입력과 보기</span>
+          </div>
+          <div id="scriptViewTabs" class="script-view-tabs" aria-label="대본 섹션"></div>
+          <div class="script-layout">
+            <div id="scriptFields" class="script-grid"></div>
+            <aside class="script-preview" aria-label="대본 미리보기">
+              <div class="script-preview-head">
+                <h3 id="scriptPreviewTitle">전체 대본</h3>
+                <button id="copyScriptBtn" class="button" type="button">복사</button>
+              </div>
+              <div id="scriptPreviewText" class="script-preview-text"></div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="musicPanel" class="panel" aria-label="게스트 추천 음악">
+          <div class="panel-head">
+            <h2>게스트 추천 음악</h2>
+            <button id="addMusicBtn" class="button" type="button">음악 추가</button>
+          </div>
+          <div class="table-wrap">
+            <table class="edit-table music-table">
+              <thead>
+                <tr>
+                  <th>순서</th>
+                  <th>곡명</th>
+                  <th>가수</th>
+                  <th>추천자</th>
+                  <th>추천 이유</th>
+                  <th>확인</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="musicRows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="notesPanel" class="panel" aria-label="방송 후 정리">
+          <div class="panel-head">
+            <h2>방송 후 정리</h2>
+            <span class="muted">수정 이력과 후속 메모</span>
+          </div>
+          <label class="full-field">
+            <span>회차 요약</span>
+            <textarea class="textarea short" data-field="summary"></textarea>
+          </label>
+          <label class="full-field">
+            <span>방송 후 메모</span>
+            <textarea class="textarea" data-field="notes"></textarea>
+          </label>
+        </section>
+      </main>
+
+      <aside class="activity" aria-label="최근 수정">
+        <div class="activity-head">
+          <h2>최근 수정</h2>
+          <span id="versionTag">v-</span>
+        </div>
+        <div id="changeLog" class="change-log"></div>
+      </aside>
+    </div>
+
+    <div id="importModal" class="modal-backdrop" hidden>
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="importTitle">
+        <header class="modal-head">
+          <div>
+            <h2 id="importTitle">MD 시나리오 가져오기</h2>
+            <p>붙여넣은 Markdown에서 시간표, 대본, 음악 표를 자동으로 채웁니다.</p>
+          </div>
+          <button id="closeImportBtn" class="icon-button" type="button" title="닫기" aria-label="닫기">×</button>
+        </header>
+
+        <div class="import-tools">
+          <label class="button file-button" for="mdFileInput">MD 파일 선택</label>
+          <input id="mdFileInput" type="file" accept=".md,.markdown,text/markdown,text/plain" hidden>
+          <button id="useSampleMdBtn" class="button" type="button">예시 불러오기</button>
+          <span id="importStatus" class="muted"></span>
+        </div>
+
+        <textarea id="mdImportText" class="textarea import-textarea" placeholder="# Riding-star 방송 시나리오&#10;&#10;## EP.01 제목&#10;- 주제: ...&#10;&#10;### 전체 방송 시간표&#10;| 구성 | 시간 | 길이 | 세부사항 | 출연 |&#10;|---|---|---|---|---|"></textarea>
+
+        <div class="modal-actions">
+          <button id="importCurrentBtn" class="button primary" type="button">현재 회차에 적용</button>
+          <button id="importNewBtn" class="button" type="button">새 회차로 추가</button>
+        </div>
+      </section>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

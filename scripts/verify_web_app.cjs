@@ -118,12 +118,15 @@ async function main() {
     assert.equal(state.appName, "Riding-star");
     assert.ok(state.episodes.length > 0, "At least one episode should exist.");
 
-    const html = await requestText("/");
+    const homeHtml = await requestText("/");
+    const html = await requestText("/scenarios.html");
     const css = await requestText("/styles.css");
     const appJs = await requestText("/app.js");
     const printHtml = await requestText("/print.html");
     const printJs = await requestText("/print.js");
 
+    assert.ok(homeHtml.includes("riding-star-main.png"));
+    assert.ok(homeHtml.includes("시나리오 관리"));
     assert.ok(html.includes("Riding-star Scenario Hub"));
     assert.ok(html.includes("MD 가져오기"));
     assert.ok(html.includes("PDF 내보내기"));
