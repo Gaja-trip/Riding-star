@@ -118,6 +118,9 @@ async function main() {
     const state = await requestJson("GET", "/api/state");
     assert.equal(state.appName, "Riding-star");
     assert.ok(state.episodes.length > 0, "At least one episode should exist.");
+    assert.equal(state.episodes[0].episodeNo, "EP.01");
+    assert.equal(state.episodes[0].status, "샘플");
+    assert.ok(state.episodes[0].script.opening.includes("라이딩스타"));
 
     const homeHtml = await requestText("/");
     const archiveHtml = await requestText("/archive.html");
@@ -139,6 +142,7 @@ async function main() {
     assert.ok(scenarioHtml.includes("importMdBtn"));
     assert.ok(scenarioHtml.includes("openEpisodeBtn"));
     assert.ok(scenarioHtml.includes("scenarioOverviewText"));
+    assert.ok(scenarioHtml.includes("<option>샘플</option>"));
     assert.ok(scenarioHtml.includes("exportPdfBtn"));
     assert.ok(episodeHtml.includes("episodeRoot"));
     assert.ok(css.includes("archive-section"));
@@ -150,6 +154,8 @@ async function main() {
     assert.ok(archiveJs.includes("archiveList"));
     assert.ok(appJs.includes("parseMarkdownScenario"));
     assert.ok(appJs.includes("renderScenarioOverview"));
+    assert.ok(appJs.includes("## EP.01 천천히, 같이, 멀리"));
+    assert.ok(appJs.includes("- 상태: 샘플"));
     assert.ok(episodeJs.includes("renderEpisode"));
     assert.ok(printHtml.includes("printBtn"));
     assert.ok(printJs.includes("renderEpisode"));
