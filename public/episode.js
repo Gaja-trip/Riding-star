@@ -17,11 +17,71 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;");
 }
 
+function requestJson(url) {
+  return new Promise((resolve, reject) => {
+    if (typeof fetch === "function") {
+      fetch(url)
+        .then((response) => {
+          if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+          return response.json();
+        })
+        .then(resolve)
+        .catch(reject);
+      return;
+    }
+
+    if (typeof XMLHttpRequest !== "function") {
+      reject(new Error("No supported request API"));
+      return;
+    }
+
+    const request = new XMLHttpRequest();
+    request.open("GET", url, true);
+    request.responseType = "json";
+    request.onload = () => {
+      if (request.status < 200 || request.status >= 300) {
+        reject(new Error(`Request failed: ${request.status}`));
+        return;
+      }
+      resolve(request.response || JSON.parse(request.responseText || "{}"));
+    };
+    request.onerror = () => reject(new Error("Request failed"));
+    request.send();
+  });
+}
+
+function renderInlineMarkdown(value) {
+  return escapeHtml(value)
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`(.+?)`/g, "<code>$1</code>");
+}
+
+function renderReadableBlock(block) {
+  const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+  const bulletLines = lines.filter((line) => /^[-*]\s+/.test(line));
+  if (lines.length && bulletLines.length === lines.length) {
+    return `<ul>${lines.map((line) => `<li>${renderInlineMarkdown(line.replace(/^[-*]\s+/, ""))}</li>`).join("")}</ul>`;
+  }
+
+  return lines.map((line) => {
+    const speaker = line.match(/^([^:：]{1,18})\s*[:：]\s*(.*)$/);
+    if (speaker && speaker[2]) {
+      return `
+        <p class="dialogue-line">
+          <strong class="dialogue-speaker">${escapeHtml(speaker[1])}</strong>
+          <span>${renderInlineMarkdown(speaker[2])}</span>
+        </p>
+      `;
+    }
+    return `<p>${renderInlineMarkdown(line)}</p>`;
+  }).join("");
+}
+
 function renderBlocks(text) {
   if (!text) return "<p>-</p>";
-  return escapeHtml(text)
+  return text
     .split(/\n{2,}/)
-    .map((block) => `<p>${block.replace(/\n/g, "<br>")}</p>`)
+    .map(renderReadableBlock)
     .join("");
 }
 
@@ -46,7 +106,7 @@ function renderEpisode(episode) {
       </div>
       <div class="public-actions">
         <a class="button" href="/">홈으로 가기</a>
-        <a class="button" href="/#archive">회차 목록</a>
+        <a class="button" href="/archive.html">회차 목록</a>
         <a class="button primary" href="/print.html?episode=${encodeURIComponent(episode.id)}">PDF 보기</a>
       </div>
     </section>
@@ -134,8 +194,7 @@ function renderEpisode(episode) {
 
 async function loadEpisode() {
   try {
-    const response = await fetch("/api/state");
-    const state = await response.json();
+    const state = await requestJson("/api/state");
     const episodeId = params.get("episode");
     const episode = state.episodes.find((item) => item.id === episodeId) || state.episodes[0];
 

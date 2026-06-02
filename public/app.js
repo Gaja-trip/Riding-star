@@ -77,16 +77,54 @@ function formatDateTime(value) {
   }).format(date);
 }
 
+function requestJson(url, options = {}) {
+  return new Promise((resolve, reject) => {
+    if (typeof fetch === "function") {
+      fetch(url, options)
+        .then(async (response) => {
+          const payload = await response.json();
+          if (!response.ok) {
+            const error = new Error(payload.message || "요청에 실패했습니다.");
+            error.status = response.status;
+            error.payload = payload;
+            throw error;
+          }
+          return payload;
+        })
+        .then(resolve)
+        .catch(reject);
+      return;
+    }
+
+    if (typeof XMLHttpRequest !== "function") {
+      reject(new Error("이 브라우저에서 요청 기능을 사용할 수 없습니다."));
+      return;
+    }
+
+    const request = new XMLHttpRequest();
+    request.open(options.method || "GET", url, true);
+    request.responseType = "json";
+    Object.entries(options.headers || {}).forEach(([key, value]) => {
+      request.setRequestHeader(key, value);
+    });
+    request.onload = () => {
+      const payload = request.response || JSON.parse(request.responseText || "{}");
+      if (request.status < 200 || request.status >= 300) {
+        const error = new Error(payload.message || "요청에 실패했습니다.");
+        error.status = request.status;
+        error.payload = payload;
+        reject(error);
+        return;
+      }
+      resolve(payload);
+    };
+    request.onerror = () => reject(new Error("요청에 실패했습니다."));
+    request.send(options.body || null);
+  });
+}
+
 async function getJson(url, options) {
-  const response = await fetch(url, options);
-  const payload = await response.json();
-  if (!response.ok) {
-    const error = new Error(payload.message || "요청에 실패했습니다.");
-    error.status = response.status;
-    error.payload = payload;
-    throw error;
-  }
-  return payload;
+  return requestJson(url, options);
 }
 
 function currentEpisode() {
@@ -213,12 +251,41 @@ function scriptPreviewPlainText(episode, key = selectedScriptView) {
   }).join("\n\n").trim();
 }
 
+function renderInlineMarkdown(value) {
+  return escapeHtml(value)
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`(.+?)`/g, "<code>$1</code>");
+}
+
+function renderReadableBlock(block) {
+  const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+  const bulletLines = lines.filter((line) => /^[-*]\s+/.test(line));
+  if (lines.length && bulletLines.length === lines.length) {
+    return `<ul>${lines.map((line) => `<li>${renderInlineMarkdown(line.replace(/^[-*]\s+/, ""))}</li>`).join("")}</ul>`;
+  }
+
+  const renderedLines = lines.map((line) => {
+    const speaker = line.match(/^([^:：]{1,18})\s*[:：]\s*(.*)$/);
+    if (speaker && speaker[2]) {
+      return `
+        <p class="dialogue-line">
+          <strong class="dialogue-speaker">${escapeHtml(speaker[1])}</strong>
+          <span>${renderInlineMarkdown(speaker[2])}</span>
+        </p>
+      `;
+    }
+    return `<p>${renderInlineMarkdown(line)}</p>`;
+  });
+
+  return renderedLines.join("");
+}
+
 function renderPreviewBlock(block) {
   const escaped = escapeHtml(block);
   if (escaped.startsWith("### ")) {
     return `<h4>${escaped.slice(4)}</h4>`;
   }
-  return `<p>${escaped.replace(/\n/g, "<br>")}</p>`;
+  return renderReadableBlock(block);
 }
 
 function renderScriptPreview(episode) {
@@ -482,21 +549,21 @@ function cellByHeader(row, aliases) {
 function parseRundown(section) {
   return parseMarkdownTable(section).map((row) => ({
     id: uid("run"),
-    segment: cellByHeader(row, ["구성", "코너", "segment"]),
-    time: cellByHeader(row, ["시간", "time"]),
-    duration: cellByHeader(row, ["길이", "분량", "duration", "소요"]),
-    details: cellByHeader(row, ["세부사항", "내용", "details"]),
-    cast: cellByHeader(row, ["출연", "cast", "담당"]),
+    segment: cellByHeader(row, ["구성", "코너", "순서", "파트", "segment"]),
+    time: cellByHeader(row, ["시간", "방송시간", "타임", "time"]),
+    duration: cellByHeader(row, ["길이", "분량", "소요시간", "duration", "소요"]),
+    details: cellByHeader(row, ["세부사항", "상세사항", "내용", "질문", "메모", "details"]),
+    cast: cellByHeader(row, ["출연", "출연자", "진행", "cast", "담당"]),
   })).filter((row) => row.segment || row.time || row.details);
 }
 
 function parseMusic(section, guest) {
   return parseMarkdownTable(section).map((row) => ({
     id: uid("music"),
-    timing: cellByHeader(row, ["순서", "타이밍", "구성", "timing"]),
-    title: cellByHeader(row, ["곡명", "제목", "title"]),
+    timing: cellByHeader(row, ["순서", "타이밍", "구성", "음악", "timing"]),
+    title: cellByHeader(row, ["곡명", "제목", "추천곡", "노래", "title"]),
     artist: cellByHeader(row, ["가수", "아티스트", "artist"]),
-    recommendedBy: cellByHeader(row, ["추천자", "recommended"]) || guest || "",
+    recommendedBy: cellByHeader(row, ["추천자", "추천한사람", "recommended"]) || guest || "",
     reason: cellByHeader(row, ["추천이유", "이유", "reason"]),
     rightsNote: cellByHeader(row, ["저작권", "송출", "확인", "rights"]) || "송출 전 확인",
   })).filter((track) => track.timing || track.title || track.reason);
@@ -562,19 +629,19 @@ function parseMarkdownScenario(markdown, baseEpisode, keepId) {
   if (rundown.length) episode.rundown = rundown;
 
   const scriptSections = {
-    opening: findSection(markdown, ["오프닝 멘트", "오프닝"]),
-    talk1: findSection(markdown, ["토크 1", "토크1"]),
-    talk2: findSection(markdown, ["토크 2", "토크2"]),
-    talk3: findSection(markdown, ["토크 3", "토크3"]),
-    closingQuestion: findSection(markdown, ["마무리 질문", "클로징 질문"]),
-    ending: findSection(markdown, ["엔딩 멘트", "엔딩"]),
+    opening: findSection(markdown, ["오프닝 멘트", "오프닝멘트", "오프닝"]),
+    talk1: findSection(markdown, ["토크 1", "토크1", "토크 1번", "첫 번째 토크"]),
+    talk2: findSection(markdown, ["토크 2", "토크2", "토크 2번", "두 번째 토크"]),
+    talk3: findSection(markdown, ["토크 3", "토크3", "토크 3번", "세 번째 토크"]),
+    closingQuestion: findSection(markdown, ["마무리 질문", "클로징 질문", "마지막 질문", "역질문"]),
+    ending: findSection(markdown, ["엔딩 멘트", "엔딩멘트", "엔딩"]),
   };
 
   Object.entries(scriptSections).forEach(([key, value]) => {
     if (value) episode.script[key] = value;
   });
 
-  const music = parseMusic(findSection(markdown, ["게스트 추천 음악", "추천 음악"]), episode.guest);
+  const music = parseMusic(findSection(markdown, ["게스트 추천 음악", "추천 음악", "추천곡", "음악 기록"]), episode.guest);
   if (music.length) episode.music = music;
 
   const notes = findSection(markdown, ["방송 후 메모", "방송 후 정리", "메모"]);
@@ -683,12 +750,14 @@ function importMarkdown(asNew) {
     state.episodes.push(parsed);
   } else {
     const index = state.episodes.findIndex((episode) => episode.id === current.id);
-    state.episodes[index] = parsed;
+    if (index >= 0) state.episodes[index] = parsed;
+    else state.episodes.push(parsed);
   }
 
   selectedEpisodeId = parsed.id;
   closeImportModal();
   renderAll();
+  activateMainTab("script");
   markDirty(asNew ? "MD 새 회차 가져오기" : "MD 현재 회차 적용");
 }
 

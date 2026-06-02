@@ -119,26 +119,32 @@ async function main() {
     assert.ok(state.episodes.length > 0, "At least one episode should exist.");
 
     const homeHtml = await requestText("/");
+    const archiveHtml = await requestText("/archive.html");
     const scenarioHtml = await requestText("/scenarios.html");
     const episodeHtml = await requestText("/episode.html");
     const css = await requestText("/styles.css");
     const homeJs = await requestText("/home.js");
+    const archiveJs = await requestText("/archive.js");
     const appJs = await requestText("/app.js");
     const episodeJs = await requestText("/episode.js");
     const printHtml = await requestText("/print.html");
     const printJs = await requestText("/print.js");
 
     assert.ok(homeHtml.includes("riding-star-main.png"));
-    assert.ok(homeHtml.includes("archiveSearch"));
-    assert.ok(homeJs.includes("/episode.html"));
+    assert.ok(homeHtml.includes("/archive.html"));
+    assert.ok(archiveHtml.includes("archiveSearch"));
+    assert.ok(archiveHtml.includes("/archive.js"));
     assert.ok(scenarioHtml.includes("Riding-star Scenario Hub"));
     assert.ok(scenarioHtml.includes("importMdBtn"));
     assert.ok(scenarioHtml.includes("exportPdfBtn"));
     assert.ok(episodeHtml.includes("episodeRoot"));
     assert.ok(css.includes("archive-section"));
+    assert.ok(css.includes("archive-page-main"));
     assert.ok(css.includes("episode-viewer"));
     assert.ok(homeJs.includes("parseEpisodeDate"));
-    assert.ok(homeJs.includes("archiveList"));
+    assert.ok(homeJs.includes("loadHomeStats"));
+    assert.ok(archiveJs.includes("/episode.html"));
+    assert.ok(archiveJs.includes("archiveList"));
     assert.ok(appJs.includes("parseMarkdownScenario"));
     assert.ok(episodeJs.includes("renderEpisode"));
     assert.ok(printHtml.includes("printBtn"));

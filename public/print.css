@@ -135,8 +135,35 @@ th {
 }
 
 .script-text {
-  white-space: pre-wrap;
   line-height: 1.76;
+}
+
+.dialogue-line {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 9px;
+  margin: 0 0 8px;
+}
+
+.dialogue-speaker {
+  border-radius: 5px;
+  background: #e8f1ed;
+  color: #125847;
+  padding: 1px 6px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.script-text ul {
+  margin: 0 0 10px 18px;
+  padding: 0;
+  line-height: 1.7;
+}
+
+.script-text code {
+  border-radius: 4px;
+  background: #f0ebe2;
+  padding: 1px 4px;
 }
 
 .notes {
