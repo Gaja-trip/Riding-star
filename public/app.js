@@ -39,6 +39,7 @@ let saveTimer = null;
 let saveInFlight = false;
 let pendingNote = "";
 let pendingRemoteState = null;
+let importSampleMode = false;
 
 elements.editorName.value = localStorage.getItem("ridingStarEditorName") || "";
 elements.editorName.addEventListener("input", () => {
@@ -134,6 +135,11 @@ function currentEpisode() {
 function setSaveState(text, mode = "") {
   elements.saveState.textContent = text;
   elements.saveState.className = `save-state ${mode}`.trim();
+}
+
+function setImportSampleMode(enabled) {
+  importSampleMode = enabled;
+  elements.mdImportText.classList.toggle("sample-import-text", enabled);
 }
 
 function markDirty(note) {
@@ -737,28 +743,42 @@ function closeImportModal() {
 }
 
 function importMarkdown(asNew) {
-  const markdown = elements.mdImportText.value.trim();
-  if (!markdown) {
-    elements.importStatus.textContent = "가져올 MD 내용을 입력해 주세요.";
-    return;
+  try {
+    const markdown = elements.mdImportText.value.trim();
+    if (!markdown) {
+      elements.importStatus.textContent = "가져올 MD 내용을 입력해 주세요.";
+      return;
+    }
+
+    if (!state) {
+      elements.importStatus.textContent = "회차 정보를 불러오는 중입니다. 잠시 후 다시 적용해 주세요.";
+      return;
+    }
+
+    if (!Array.isArray(state.episodes)) state.episodes = [];
+
+    const current = currentEpisode();
+    const shouldKeepCurrentId = !asNew && Boolean(current);
+    const baseEpisode = shouldKeepCurrentId ? current : createBlankEpisode();
+    const parsed = parseMarkdownScenario(markdown, baseEpisode, shouldKeepCurrentId);
+
+    if (asNew || !current) {
+      state.episodes.push(parsed);
+    } else {
+      const index = state.episodes.findIndex((episode) => episode.id === current.id);
+      if (index >= 0) state.episodes[index] = parsed;
+      else state.episodes.push(parsed);
+    }
+
+    selectedEpisodeId = parsed.id;
+    setImportSampleMode(false);
+    closeImportModal();
+    renderAll();
+    activateMainTab("script");
+    markDirty(asNew ? "MD 새 회차 가져오기" : "MD 현재 회차 적용");
+  } catch (error) {
+    elements.importStatus.textContent = `적용하지 못했습니다: ${error.message || "MD 형식을 확인해 주세요."}`;
   }
-
-  const current = currentEpisode();
-  const parsed = parseMarkdownScenario(markdown, asNew ? createBlankEpisode() : current, !asNew);
-
-  if (asNew) {
-    state.episodes.push(parsed);
-  } else {
-    const index = state.episodes.findIndex((episode) => episode.id === current.id);
-    if (index >= 0) state.episodes[index] = parsed;
-    else state.episodes.push(parsed);
-  }
-
-  selectedEpisodeId = parsed.id;
-  closeImportModal();
-  renderAll();
-  activateMainTab("script");
-  markDirty(asNew ? "MD 새 회차 가져오기" : "MD 현재 회차 적용");
 }
 
 async function exportMarkdown() {
@@ -783,6 +803,11 @@ async function exportPdf() {
 
 document.addEventListener("input", (event) => {
   const target = event.target;
+  if (target === elements.mdImportText) {
+    if (importSampleMode) setImportSampleMode(false);
+    return;
+  }
+
   const episode = currentEpisode();
   if (!episode) return;
 
@@ -955,6 +980,7 @@ document.addEventListener("click", (event) => {
   if (target.id === "useSampleMdBtn") {
     elements.mdImportText.value = sampleMarkdown();
     elements.importStatus.textContent = "예시 MD를 불러왔습니다.";
+    setImportSampleMode(true);
     return;
   }
 
@@ -987,6 +1013,7 @@ elements.mdFileInput.addEventListener("change", async () => {
   const file = elements.mdFileInput.files?.[0];
   if (!file) return;
   elements.mdImportText.value = await file.text();
+  setImportSampleMode(false);
   elements.importStatus.textContent = `${file.name} 파일을 불러왔습니다.`;
   elements.mdFileInput.value = "";
 });

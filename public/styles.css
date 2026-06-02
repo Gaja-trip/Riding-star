@@ -1063,6 +1063,11 @@ button {
   font-family: "Segoe UI", "Malgun Gothic", system-ui, sans-serif;
 }
 
+.import-textarea.sample-import-text {
+  background: #f7f6f1;
+  color: var(--muted);
+}
+
 .modal-actions {
   justify-content: flex-end;
   margin-top: 12px;

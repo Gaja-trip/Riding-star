@@ -253,6 +253,7 @@ function serveStatic(req, res, pathname) {
     const extension = path.extname(filePath);
     res.writeHead(200, {
       "Content-Type": MIME_TYPES[extension] || "application/octet-stream",
+      "Cache-Control": "no-store",
     });
     res.end(data);
   });
