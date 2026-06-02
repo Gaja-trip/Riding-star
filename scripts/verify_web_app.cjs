@@ -1,12 +1,13 @@
 const assert = require("assert");
 const fs = require("fs");
 const http = require("http");
+const os = require("os");
 const path = require("path");
 const { spawn } = require("child_process");
 
 const root = path.resolve(__dirname, "..");
 const port = Number(process.env.VERIFY_PORT || 5297);
-const verifyDir = path.join(root, "dist", "web-verify");
+const verifyDir = fs.mkdtempSync(path.join(os.tmpdir(), "riding-star-web-verify-"));
 const dataFile = path.join(verifyDir, "scenarios.verify.json");
 
 fs.mkdirSync(verifyDir, { recursive: true });
@@ -136,6 +137,8 @@ async function main() {
     assert.ok(archiveHtml.includes("/archive.js"));
     assert.ok(scenarioHtml.includes("Riding-star Scenario Hub"));
     assert.ok(scenarioHtml.includes("importMdBtn"));
+    assert.ok(scenarioHtml.includes("openEpisodeBtn"));
+    assert.ok(scenarioHtml.includes("scenarioOverviewText"));
     assert.ok(scenarioHtml.includes("exportPdfBtn"));
     assert.ok(episodeHtml.includes("episodeRoot"));
     assert.ok(css.includes("archive-section"));
@@ -146,6 +149,7 @@ async function main() {
     assert.ok(archiveJs.includes("/episode.html"));
     assert.ok(archiveJs.includes("archiveList"));
     assert.ok(appJs.includes("parseMarkdownScenario"));
+    assert.ok(appJs.includes("renderScenarioOverview"));
     assert.ok(episodeJs.includes("renderEpisode"));
     assert.ok(printHtml.includes("printBtn"));
     assert.ok(printJs.includes("renderEpisode"));

@@ -768,7 +768,8 @@ button {
 }
 
 .meta-panel,
-.panel {
+.panel,
+.scenario-overview-panel {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface);
@@ -781,6 +782,47 @@ button {
   gap: 12px;
   margin-bottom: 16px;
   padding: 16px;
+}
+
+.scenario-overview-panel {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding: 18px;
+}
+
+.scenario-overview-panel .panel-head {
+  margin-bottom: 0;
+}
+
+.scenario-overview-text {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.scenario-overview-section {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfaf6;
+  padding: 14px;
+}
+
+.scenario-overview-section.opening {
+  grid-column: 1 / -1;
+  border-color: rgba(29, 122, 100, 0.34);
+  background: #f2faf6;
+}
+
+.scenario-overview-section h3 {
+  margin: 0 0 10px;
+  color: var(--accent-dark);
+  font-size: 16px;
+}
+
+.scenario-overview-section p {
+  margin: 0 0 10px;
+  line-height: 1.72;
 }
 
 .tabs {
@@ -1189,6 +1231,7 @@ button {
   .meta-panel,
   .script-grid,
   .script-layout,
+  .scenario-overview-text,
   .change-log {
     grid-template-columns: 1fr;
   }

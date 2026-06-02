@@ -45,6 +45,7 @@
             <span id="saveState" class="save-state">불러오는 중</span>
             <a class="button" href="/">홈</a>
             <button id="reloadBtn" class="icon-button" type="button" title="새로고침" aria-label="새로고침">↻</button>
+            <button id="openEpisodeBtn" class="button" type="button">시나리오 보기</button>
             <button id="importMdBtn" class="button" type="button">MD 가져오기</button>
             <button id="exportMdBtn" class="button" type="button">MD 내보내기</button>
             <button id="exportPdfBtn" class="button" type="button">PDF 내보내기</button>
@@ -112,6 +113,17 @@
             <span>키워드</span>
             <input class="input" data-field="keywords">
           </label>
+        </section>
+
+        <section class="scenario-overview-panel" aria-label="시나리오 미리보기">
+          <div class="panel-head">
+            <div>
+              <h2 id="scenarioOverviewTitle">시나리오 미리보기</h2>
+              <span class="muted">오프닝 멘트부터 전체 대본까지 바로 확인</span>
+            </div>
+            <button class="button" data-tab="script" type="button">대본 편집</button>
+          </div>
+          <div id="scenarioOverviewText" class="scenario-overview-text"></div>
         </section>
 
         <nav class="tabs" aria-label="편집 탭">
@@ -235,6 +247,6 @@
       </section>
     </div>
 
-    <script src="/app.js?v=20260602-md-import-fix"></script>
+    <script src="/app.js?v=20260602-scenario-preview"></script>
   </body>
 </html>

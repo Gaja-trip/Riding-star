@@ -1,8 +1,9 @@
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 
 const BUNDLED_DATA_FILE = path.join(process.cwd(), "data", "scenarios.json");
-const RUNTIME_DATA_FILE = path.join("/tmp", "riding-star-scenarios.json");
+const RUNTIME_DATA_FILE = path.join(os.tmpdir(), "riding-star-scenarios.json");
 
 let memoryState = null;
 
@@ -15,15 +16,37 @@ function writeJson(filePath, value) {
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
 }
 
-function loadState() {
-  if (memoryState) return memoryState;
+function stateTimestamp(state) {
+  const timestamp = Date.parse(state?.updatedAt || "");
+  return Number.isNaN(timestamp) ? 0 : timestamp;
+}
 
-  if (fs.existsSync(RUNTIME_DATA_FILE)) {
-    memoryState = readJson(RUNTIME_DATA_FILE);
-    return memoryState;
+function isNewerState(candidate, baseline) {
+  if (!candidate) return false;
+  if (!baseline) return true;
+
+  const candidateVersion = Number(candidate.version || 0);
+  const baselineVersion = Number(baseline.version || 0);
+  if (candidateVersion !== baselineVersion) return candidateVersion > baselineVersion;
+
+  return stateTimestamp(candidate) > stateTimestamp(baseline);
+}
+
+function loadState() {
+  const bundledState = readJson(BUNDLED_DATA_FILE);
+  const runtimeState = fs.existsSync(RUNTIME_DATA_FILE) ? readJson(RUNTIME_DATA_FILE) : null;
+
+  const latestState = [runtimeState, memoryState, bundledState].reduce(
+    (latest, candidate) => (isNewerState(candidate, latest) ? candidate : latest),
+    null,
+  );
+
+  memoryState = latestState || bundledState;
+
+  if (!runtimeState || isNewerState(memoryState, runtimeState)) {
+    writeJson(RUNTIME_DATA_FILE, memoryState);
   }
 
-  memoryState = readJson(BUNDLED_DATA_FILE);
   return memoryState;
 }
 

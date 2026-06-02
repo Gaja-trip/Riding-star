@@ -23,6 +23,8 @@ const elements = {
   scriptFields: document.querySelector("#scriptFields"),
   scriptPreviewTitle: document.querySelector("#scriptPreviewTitle"),
   scriptPreviewText: document.querySelector("#scriptPreviewText"),
+  scenarioOverviewTitle: document.querySelector("#scenarioOverviewTitle"),
+  scenarioOverviewText: document.querySelector("#scenarioOverviewText"),
   musicRows: document.querySelector("#musicRows"),
   conflictBanner: document.querySelector("#conflictBanner"),
   importModal: document.querySelector("#importModal"),
@@ -303,6 +305,27 @@ function renderScriptPreview(episode) {
     : `<p class="empty-preview">아직 입력된 대본이 없습니다.</p>`;
 }
 
+function renderScenarioOverview(episode) {
+  elements.scenarioOverviewTitle.textContent = `${episode.episodeNo || "회차 미정"} 시나리오`;
+  const hasAnyScript = SCRIPT_FIELDS.some(([key]) => String(episode.script?.[key] || "").trim());
+
+  if (!hasAnyScript) {
+    elements.scenarioOverviewText.innerHTML = `<p class="empty-preview">아직 작성된 시나리오가 없습니다. 대본 편집에서 오프닝 멘트부터 입력해 주세요.</p>`;
+    return;
+  }
+
+  elements.scenarioOverviewText.innerHTML = SCRIPT_FIELDS.map(([key, label]) => {
+    const text = String(episode.script?.[key] || "").trim();
+    const body = text ? renderReadableBlock(text) : `<p class="empty-preview">작성된 내용 없음</p>`;
+    return `
+      <article class="scenario-overview-section ${key === "opening" ? "opening" : ""}">
+        <h3>${escapeHtml(label)}</h3>
+        ${body}
+      </article>
+    `;
+  }).join("");
+}
+
 function renderScript(episode) {
   renderScriptTabs();
   const fields = selectedScriptView === "all"
@@ -355,6 +378,7 @@ function renderAll() {
   renderHeading(episode);
   renderMetaFields(episode);
   renderRundown(episode);
+  renderScenarioOverview(episode);
   renderScript(episode);
   renderMusic(episode);
   renderActivity();
@@ -455,6 +479,7 @@ function updateHeadingAfterMeta(field) {
   if (["episodeNo", "title", "theme", "guest", "status", "airDate"].includes(field)) {
     const episode = currentEpisode();
     renderHeading(episode);
+    renderScenarioOverview(episode);
     renderEpisodeList();
   }
 }
@@ -832,6 +857,7 @@ document.addEventListener("input", (event) => {
   if (target.dataset.script) {
     episode.script[target.dataset.script] = target.value;
     touchEpisode(episode);
+    renderScenarioOverview(episode);
     renderScriptPreview(episode);
     markDirty("대본 수정");
     return;
@@ -953,6 +979,11 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  if (target.id === "openEpisodeBtn" && episode) {
+    openEpisodeView();
+    return;
+  }
+
   if (target.id === "loadLatestBtn") {
     if (pendingRemoteState) {
       state = pendingRemoteState;
@@ -1008,6 +1039,13 @@ document.addEventListener("click", (event) => {
     exportPdf();
   }
 });
+
+async function openEpisodeView() {
+  const episode = currentEpisode();
+  if (!episode) return;
+  if (!(await ensureSaved("시나리오 보기 전 저장"))) return;
+  window.open(`/episode.html?episode=${encodeURIComponent(episode.id)}`, "_blank");
+}
 
 elements.mdFileInput.addEventListener("change", async () => {
   const file = elements.mdFileInput.files?.[0];
