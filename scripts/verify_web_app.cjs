@@ -136,6 +136,10 @@ async function main() {
 
     assert.ok(homeHtml.includes("riding-star-main.png"));
     assert.ok(homeHtml.includes("전주FM"));
+    assert.ok(homeHtml.includes("menu-jeonjufm.svg"));
+    assert.ok(homeHtml.includes("menu-cast.svg"));
+    assert.ok(homeHtml.includes("menu-archive.svg"));
+    assert.ok(homeHtml.includes("menu-scenario.svg"));
     assert.ok(homeHtml.includes("/archive.html"));
     assert.ok(archiveHtml.includes("archiveSearch"));
     assert.ok(archiveHtml.includes("archive-body"));
@@ -145,6 +149,10 @@ async function main() {
     assert.ok(castHtml.includes("cast-park-junggyu.png"));
     assert.ok(castHtml.includes("cast-kang-wanggyu.png"));
     assert.ok(castHtml.includes("cast-body"));
+    assert.ok(castHtml.includes("menu-home.svg"));
+    assert.ok(castHtml.includes("menu-cast.svg"));
+    assert.ok(castHtml.includes("menu-archive.svg"));
+    assert.ok(castHtml.includes("menu-scenario.svg"));
     assert.ok(castHtml.includes("회차별 게스트"));
     assert.ok(castHtml.includes("11회"));
     assert.ok(castHtml.includes("김길중"));
@@ -160,6 +168,9 @@ async function main() {
     assert.ok(css.includes("archive-group h3 a"));
     assert.ok(css.includes("body.cast-body"));
     assert.ok(css.includes("cast-guest-list"));
+    assert.ok(css.includes("menu-label-img"));
+    assert.ok(css.includes("poster-menu-label-img"));
+    assert.ok(css.includes("home-menu-label-img"));
     assert.ok(css.includes("episode-viewer"));
     assert.ok(homeJs.includes("parseEpisodeDate"));
     assert.ok(homeJs.includes("loadHomeStats"));

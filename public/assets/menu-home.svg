@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122 72" role="img" aria-label="홈">
+  <defs>
+    <linearGradient id="menuInk" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0d3d7a"/>
+      <stop offset="0.52" stop-color="#1d7a64"/>
+      <stop offset="1" stop-color="#f18a00"/>
+    </linearGradient>
+    <filter id="menuLift" x="-25%" y="-35%" width="150%" height="170%">
+      <feDropShadow dx="0" dy="4" stdDeviation="2.6" flood-color="#082b3d" flood-opacity="0.32"/>
+      <feDropShadow dx="0" dy="1" stdDeviation="0.5" flood-color="#ffffff" flood-opacity="0.95"/>
+    </filter>
+  </defs>
+  <path d="M13 13 C36 5 82 5 108 14 C117 17 115 59 103 62 C74 69 43 68 16 61 C7 59 5 18 13 13Z" fill="#fffdf8" opacity="0.78"/>
+  <text x="61" y="48" text-anchor="middle" filter="url(#menuLift)" font-family="'Black Han Sans','Jua','Malgun Gothic',sans-serif" font-size="42" font-weight="900" letter-spacing="0" paint-order="stroke fill" stroke="#fffdf8" stroke-linejoin="round" stroke-width="10" fill="url(#menuInk)">홈</text>
+  <path d="M30 56 C47 64 75 64 94 54" fill="none" stroke="#f18a00" stroke-linecap="round" stroke-width="5"/>
+</svg>
