@@ -60,42 +60,59 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;");
 }
 
+function archiveDateHref(date) {
+  const params = new URLSearchParams();
+  if (date.year) params.set("year", date.year);
+  if (date.month) params.set("month", date.month);
+  if (date.day) params.set("day", date.day);
+  const query = params.toString();
+  return query ? `/archive.html?${query}` : "/archive.html";
+}
+
+function episodeHref(episode) {
+  const params = new URLSearchParams({ episode: episode.id });
+  if (episode.date.year) params.set("year", episode.date.year);
+  if (episode.date.month) params.set("month", episode.date.month);
+  if (episode.date.day) params.set("day", episode.date.day);
+  return `/episode.html?${params.toString()}`;
+}
+
+function parseDateCandidate(value, source) {
+  const raw = String(value || "").trim();
+  if (!raw) return null;
+
+  const match = raw.match(/(20\d{2})[.\-/년\s]+(\d{1,2})(?:[.\-/월\s]+(\d{1,2}|__|00|xx|XX))?/);
+  if (!match) return null;
+
+  const year = match[1];
+  const month = match[2].padStart(2, "0");
+  const hasDay = /^\d{1,2}$/.test(match[3] || "") && match[3] !== "00";
+  const day = hasDay ? match[3].padStart(2, "0") : "";
+  const sourceLabel = source === "air" ? "방송일" : "녹음일";
+
+  return {
+    raw,
+    label: day ? `${year}.${month}.${day}` : `${year}.${month} ${sourceLabel} 미정`,
+    sourceLabel,
+    year,
+    month,
+    day,
+    sortKey: `${year}-${month}-${day || "00"}`,
+  };
+}
+
 function parseEpisodeDate(episode) {
-  const candidates = [episode.airDate, episode.recordDate].filter(Boolean);
-  let raw = candidates[0] || "";
-  let match = null;
-
-  for (const candidate of candidates) {
-    const candidateMatch = String(candidate).match(/(20\d{2})[.\-/년\s]+(\d{1,2})[.\-/월\s]+(\d{1,2})/);
-    if (candidateMatch) {
-      raw = candidate;
-      match = candidateMatch;
-      break;
-    }
-  }
-
-  if (!match) {
-    return {
-      raw,
-      label: raw || "날짜 미정",
+  return parseDateCandidate(episode.airDate, "air")
+    || parseDateCandidate(episode.recordDate, "record")
+    || {
+      raw: episode.airDate || episode.recordDate || "",
+      label: episode.airDate || episode.recordDate || "날짜 미정",
+      sourceLabel: "날짜",
       year: "",
       month: "",
       day: "",
       sortKey: "0000-00-00",
     };
-  }
-
-  const year = match[1];
-  const month = match[2].padStart(2, "0");
-  const day = match[3].padStart(2, "0");
-  return {
-    raw,
-    label: `${year}.${month}.${day}`,
-    year,
-    month,
-    day,
-    sortKey: `${year}-${month}-${day}`,
-  };
 }
 
 function episodeSearchText(episode) {
@@ -149,7 +166,7 @@ function filteredEpisodes() {
 
 function groupByDate(episodes) {
   return episodes.reduce((groups, episode) => {
-    const key = episode.date.label;
+    const key = `${episode.date.sortKey}|${episode.date.label}`;
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(episode);
     return groups;
@@ -165,21 +182,27 @@ function renderArchive() {
   }
 
   const grouped = groupByDate(episodes);
-  archiveElements.list.innerHTML = [...grouped.entries()].map(([dateLabel, items]) => `
+  archiveElements.list.innerHTML = [...grouped.entries()].map(([, items]) => {
+    const groupDate = items[0].date;
+    return `
     <section class="archive-group">
-      <h3>${escapeHtml(dateLabel)}</h3>
+      <h3>
+        <a href="${escapeHtml(archiveDateHref(groupDate))}">${escapeHtml(groupDate.label)}</a>
+        <span>${escapeHtml(groupDate.sourceLabel)} 기준</span>
+      </h3>
       <div class="archive-cards">
         ${items.map((episode) => `
-          <a class="archive-card" href="/episode.html?episode=${encodeURIComponent(episode.id)}">
+          <a class="archive-card" href="${escapeHtml(episodeHref(episode))}">
             <span>${escapeHtml(episode.episodeNo || "회차 미정")}</span>
             <strong>${escapeHtml(episode.title || "제목 없음")}</strong>
-            <small>${escapeHtml([episode.guest && `게스트 ${episode.guest}`, episode.status].filter(Boolean).join(" · "))}</small>
+            <small>${escapeHtml([groupDate.sourceLabel, groupDate.raw, episode.guest && `게스트 ${episode.guest}`, episode.status].filter(Boolean).join(" · "))}</small>
             <p>${escapeHtml(episode.summary || episode.theme || "등록된 방송 내용을 확인합니다.")}</p>
           </a>
         `).join("")}
       </div>
     </section>
-  `).join("");
+  `;
+  }).join("");
 }
 
 function updateStats() {
@@ -197,10 +220,30 @@ async function loadArchive() {
       .map((episode) => ({ ...episode, date: parseEpisodeDate(episode) }))
       .sort((a, b) => b.date.sortKey.localeCompare(a.date.sortKey));
     updateFilters();
+    applyQueryFilters();
     updateStats();
     renderArchive();
   } catch (error) {
     archiveElements.list.innerHTML = `<p class="empty-preview">회차를 불러오지 못했습니다.</p>`;
+  }
+}
+
+function applyQueryFilters() {
+  const params = new URLSearchParams(window.location.search);
+  const year = params.get("year") || "";
+  const month = params.get("month") || "";
+  const day = params.get("day") || "";
+
+  if (year && [...archiveElements.year.options].some((option) => option.value === year)) {
+    archiveElements.year.value = year;
+    updateFilters();
+  }
+  if (month && [...archiveElements.month.options].some((option) => option.value === month)) {
+    archiveElements.month.value = month;
+    updateFilters();
+  }
+  if (day && [...archiveElements.day.options].some((option) => option.value === day)) {
+    archiveElements.day.value = day;
   }
 }
 
@@ -214,7 +257,19 @@ function handleArchiveControl(control) {
     archiveElements.day.value = "";
     updateFilters();
   }
+  syncQueryFromFilters();
   renderArchive();
+}
+
+function syncQueryFromFilters() {
+  const params = new URLSearchParams(window.location.search);
+  ["year", "month", "day"].forEach((key) => params.delete(key));
+  if (archiveElements.year.value) params.set("year", archiveElements.year.value);
+  if (archiveElements.month.value) params.set("month", archiveElements.month.value);
+  if (archiveElements.day.value) params.set("day", archiveElements.day.value);
+
+  const query = params.toString();
+  history.replaceState(null, "", query ? `${window.location.pathname}?${query}` : window.location.pathname);
 }
 
 [archiveElements.search, archiveElements.year, archiveElements.month, archiveElements.day].forEach((control) => {

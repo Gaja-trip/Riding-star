@@ -135,9 +135,14 @@ async function main() {
     const printJs = await requestText("/print.js");
 
     assert.ok(homeHtml.includes("riding-star-main.png"));
+    assert.ok(homeHtml.includes("전주FM"));
     assert.ok(homeHtml.includes("/archive.html"));
     assert.ok(archiveHtml.includes("archiveSearch"));
+    assert.ok(archiveHtml.includes("날짜별 회차 방송 내용"));
     assert.ok(archiveHtml.includes("/archive.js"));
+    const castHtml = await requestText("/cast.html");
+    assert.ok(castHtml.includes("cast-park-junggyu.png"));
+    assert.ok(castHtml.includes("cast-kang-wanggyu.png"));
     assert.ok(scenarioHtml.includes("Riding-star Scenario Hub"));
     assert.ok(scenarioHtml.includes("importMdBtn"));
     assert.ok(scenarioHtml.includes("openEpisodeBtn"));
@@ -147,16 +152,19 @@ async function main() {
     assert.ok(episodeHtml.includes("episodeRoot"));
     assert.ok(css.includes("archive-section"));
     assert.ok(css.includes("archive-page-main"));
+    assert.ok(css.includes("archive-group h3 a"));
     assert.ok(css.includes("episode-viewer"));
     assert.ok(homeJs.includes("parseEpisodeDate"));
     assert.ok(homeJs.includes("loadHomeStats"));
     assert.ok(archiveJs.includes("/episode.html"));
     assert.ok(archiveJs.includes("archiveList"));
+    assert.ok(archiveJs.includes("archiveDateHref"));
     assert.ok(appJs.includes("parseMarkdownScenario"));
     assert.ok(appJs.includes("renderScenarioOverview"));
     assert.ok(appJs.includes("## EP.01 천천히, 같이, 멀리"));
     assert.ok(appJs.includes("- 상태: 샘플"));
     assert.ok(episodeJs.includes("renderEpisode"));
+    assert.ok(episodeJs.includes("시나리오 관리"));
     assert.ok(printHtml.includes("printBtn"));
     assert.ok(printJs.includes("renderEpisode"));
 

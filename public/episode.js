@@ -94,8 +94,47 @@ function metaItem(label, value) {
   `;
 }
 
+function parseDateCandidate(value, source) {
+  const raw = String(value || "").trim();
+  if (!raw) return null;
+
+  const match = raw.match(/(20\d{2})[.\-/년\s]+(\d{1,2})(?:[.\-/월\s]+(\d{1,2}|__|00|xx|XX))?/);
+  if (!match) return null;
+
+  const year = match[1];
+  const month = match[2].padStart(2, "0");
+  const hasDay = /^\d{1,2}$/.test(match[3] || "") && match[3] !== "00";
+  const day = hasDay ? match[3].padStart(2, "0") : "";
+  const sourceLabel = source === "air" ? "방송일" : "녹음일";
+
+  return {
+    raw,
+    label: day ? `${year}.${month}.${day}` : `${year}.${month} ${sourceLabel} 미정`,
+    sourceLabel,
+    year,
+    month,
+    day,
+  };
+}
+
+function scenarioDate(episode) {
+  return parseDateCandidate(episode.airDate, "air")
+    || parseDateCandidate(episode.recordDate, "record")
+    || { raw: "", label: "날짜 미정", sourceLabel: "날짜", year: "", month: "", day: "" };
+}
+
+function archiveDateHref(date) {
+  const query = new URLSearchParams();
+  if (date.year) query.set("year", date.year);
+  if (date.month) query.set("month", date.month);
+  if (date.day) query.set("day", date.day);
+  const search = query.toString();
+  return search ? `/archive.html?${search}` : "/archive.html";
+}
+
 function renderEpisode(episode) {
   document.title = `${episode.episodeNo || "Riding-star"} ${episode.title || ""}`;
+  const date = scenarioDate(episode);
 
   root.innerHTML = `
     <section class="public-cover">
@@ -106,12 +145,15 @@ function renderEpisode(episode) {
       </div>
       <div class="public-actions">
         <a class="button" href="/">홈으로 가기</a>
-        <a class="button" href="/archive.html">회차 목록</a>
+        <a class="button" href="${escapeHtml(archiveDateHref(date))}">같은 날짜 회차</a>
+        <a class="button" href="/archive.html">전체 회차</a>
+        <a class="button" href="/scenarios.html?episode=${encodeURIComponent(episode.id)}">시나리오 관리</a>
         <a class="button primary" href="/print.html?episode=${encodeURIComponent(episode.id)}">PDF 보기</a>
       </div>
     </section>
 
     <section class="public-meta">
+      ${metaItem("시나리오 날짜", `${date.label} · ${date.sourceLabel} 기준`)}
       ${metaItem("방송일", episode.airDate)}
       ${metaItem("녹음일", episode.recordDate)}
       ${metaItem("게스트", episode.guest)}

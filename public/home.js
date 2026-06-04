@@ -44,16 +44,29 @@ function requestJson(url) {
   });
 }
 
+function parseDateCandidate(value, source) {
+  const raw = String(value || "").trim();
+  if (!raw) return null;
+
+  const match = raw.match(/(20\d{2})[.\-/년\s]+(\d{1,2})(?:[.\-/월\s]+(\d{1,2}|__|00|xx|XX))?/);
+  if (!match) return null;
+
+  const year = match[1];
+  const month = match[2].padStart(2, "0");
+  const hasDay = /^\d{1,2}$/.test(match[3] || "") && match[3] !== "00";
+  const day = hasDay ? match[3].padStart(2, "0") : "";
+  const sourceLabel = source === "air" ? "방송일" : "녹음일";
+
+  return {
+    label: day ? `${year}.${month}.${day}` : `${year}.${month} ${sourceLabel} 미정`,
+    sortKey: `${year}-${month}-${day || "00"}`,
+  };
+}
+
 function parseEpisodeDate(episode) {
-  const candidates = [episode.airDate, episode.recordDate].filter(Boolean);
-
-  for (const candidate of candidates) {
-    const match = String(candidate).match(/(20\d{2})[.\-/년\s]+(\d{1,2})[.\-/월\s]+(\d{1,2})/);
-    if (!match) continue;
-    return `${match[1]}.${match[2].padStart(2, "0")}.${match[3].padStart(2, "0")}`;
-  }
-
-  return "-";
+  return parseDateCandidate(episode.airDate, "air")
+    || parseDateCandidate(episode.recordDate, "record")
+    || { label: "-", sortKey: "0000-00-00" };
 }
 
 async function loadHomeStats() {
@@ -64,12 +77,12 @@ async function loadHomeStats() {
     const episodes = state.episodes || [];
     const latest = episodes
       .map((episode) => parseEpisodeDate(episode))
-      .filter((date) => date !== "-")
-      .sort()
+      .filter((date) => date.label !== "-")
+      .sort((a, b) => a.sortKey.localeCompare(b.sortKey))
       .at(-1);
 
     if (homeCount) homeCount.textContent = String(episodes.length);
-    if (homeLatestDate) homeLatestDate.textContent = latest || "-";
+    if (homeLatestDate) homeLatestDate.textContent = latest?.label || "-";
   } catch (error) {
     if (homeCount) homeCount.textContent = "-";
     if (homeLatestDate) homeLatestDate.textContent = "-";
