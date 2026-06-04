@@ -78,17 +78,14 @@ body.home-body {
 
 .poster-top-menu {
   position: absolute;
-  left: 9%;
+  top: 2%;
+  left: 4.2%;
   z-index: 5;
-}
-
-.poster-top-menu {
-  top: 1.8%;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  width: min(78%, 370px);
+  gap: clamp(18px, 2.2vw, 28px);
+  width: 92.2%;
   padding: 0;
   pointer-events: none;
 }
@@ -116,11 +113,11 @@ body.home-body {
 
 .poster-logo-img {
   width: auto !important;
-  height: clamp(24px, 3.2vw, 34px) !important;
-  max-width: 108px;
+  height: clamp(26px, 3.5vw, 38px) !important;
+  max-width: 136px;
   filter:
-    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.9))
-    drop-shadow(0 4px 9px rgba(13, 49, 80, 0.22));
+    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.82))
+    drop-shadow(0 5px 11px rgba(13, 49, 80, 0.24));
 }
 
 .sidebar-logo-img {
@@ -193,8 +190,8 @@ body.home-body {
 .poster-top-menu nav {
   flex: 1 1 auto;
   flex-wrap: nowrap;
-  justify-content: flex-start;
-  gap: clamp(5px, 1vw, 10px);
+  justify-content: flex-end;
+  gap: clamp(10px, 1.4vw, 16px);
   min-width: 0;
   pointer-events: auto;
 }
@@ -202,7 +199,7 @@ body.home-body {
 .poster-top-menu nav a {
   position: relative;
   color: #0b3f7a;
-  font-size: clamp(11px, 1.35vw, 15px);
+  font-size: clamp(12px, 1.25vw, 16px);
   font-weight: 900;
   line-height: 1;
   padding: 5px 0;
@@ -1520,6 +1517,7 @@ button {
 
   .poster-top-menu {
     top: 1.5%;
+    display: flex;
     align-items: flex-start;
     flex-direction: column;
     gap: 5px;
