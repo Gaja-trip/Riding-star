@@ -78,23 +78,19 @@ body.home-body {
 
 .poster-top-menu {
   position: absolute;
-  right: 18px;
-  left: 18px;
-  z-index: 2;
+  left: 5.2%;
+  z-index: 5;
 }
 
 .poster-top-menu {
-  top: 16px;
+  top: 1.8%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.54);
-  border-radius: 8px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.72), rgba(234, 248, 240, 0.58));
-  padding: 6px 8px;
-  box-shadow: 0 8px 24px rgba(13, 49, 42, 0.12);
-  backdrop-filter: blur(8px);
+  justify-content: flex-start;
+  gap: 10px;
+  width: min(78%, 370px);
+  padding: 0;
+  pointer-events: none;
 }
 
 .poster-brand,
@@ -104,10 +100,11 @@ body.home-body {
 }
 
 .poster-brand {
-  gap: 7px;
+  gap: 0;
   color: var(--text);
   flex: 0 0 auto;
   text-decoration: none;
+  pointer-events: auto;
 }
 
 .riding-logo {
@@ -115,25 +112,35 @@ body.home-body {
   align-items: baseline;
   line-height: 1;
   text-shadow:
-    0 1px 0 white,
-    0 0 8px rgba(255, 255, 255, 0.88);
+    -1px -1px 0 rgba(255, 255, 255, 0.96),
+    1px -1px 0 rgba(255, 255, 255, 0.96),
+    -1px 1px 0 rgba(255, 255, 255, 0.96),
+    1px 1px 0 rgba(255, 255, 255, 0.96),
+    0 5px 12px rgba(20, 58, 84, 0.24);
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+.poster-brand:hover .riding-logo,
+.poster-brand:focus-visible .riding-logo {
+  filter: saturate(1.18);
+  transform: translateY(-1px) scale(1.06);
 }
 
 .riding-logo-ko {
   color: #0d3d7a;
-  font-size: clamp(16px, 2vw, 22px);
+  font-size: clamp(14px, 1.85vw, 21px);
   font-weight: 1000;
 }
 
 .riding-logo-green {
   color: #207c2d;
-  font-size: clamp(16px, 2vw, 22px);
+  font-size: clamp(14px, 1.85vw, 21px);
   font-weight: 1000;
 }
 
 .riding-logo-star {
   color: #f18a00;
-  font-size: clamp(12px, 1.5vw, 17px);
+  font-size: clamp(10px, 1.35vw, 16px);
   font-weight: 1000;
   margin: 0 -1px;
   transform: translateY(-0.38em) rotate(-5deg);
@@ -153,25 +160,73 @@ body.home-body {
 .poster-top-menu nav {
   flex: 1 1 auto;
   flex-wrap: nowrap;
-  justify-content: flex-end;
-  gap: 4px;
+  justify-content: flex-start;
+  gap: clamp(5px, 1vw, 10px);
   min-width: 0;
+  pointer-events: auto;
 }
 
 .poster-top-menu nav a {
-  border: 1px solid rgba(18, 88, 71, 0.1);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.48);
-  color: #104f43;
-  font-size: 11px;
+  position: relative;
+  color: #0b3f7a;
+  font-size: clamp(11px, 1.35vw, 15px);
   font-weight: 900;
-  padding: 5px 6px;
+  line-height: 1;
+  padding: 5px 0;
   text-decoration: none;
+  text-shadow:
+    -1px -1px 0 rgba(255, 255, 255, 0.96),
+    1px -1px 0 rgba(255, 255, 255, 0.96),
+    -1px 1px 0 rgba(255, 255, 255, 0.96),
+    1px 1px 0 rgba(255, 255, 255, 0.96),
+    0 4px 10px rgba(0, 42, 68, 0.25);
+  transition: color 160ms ease, transform 160ms ease, text-shadow 160ms ease;
   white-space: nowrap;
 }
 
+.poster-top-menu nav a:nth-child(1),
+.poster-top-menu nav a:nth-child(3) {
+  color: #0d3d7a;
+}
+
+.poster-top-menu nav a:nth-child(2),
+.poster-top-menu nav a:nth-child(4) {
+  color: #1f782d;
+}
+
+.poster-top-menu nav a::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: #f18a00;
+  content: "";
+  opacity: 0;
+  transform: scaleX(0.35);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
 .poster-top-menu nav a:hover {
-  background: rgba(225, 240, 235, 0.86);
+  color: #f06d16;
+  text-shadow:
+    -1px -1px 0 rgba(255, 255, 255, 0.98),
+    1px -1px 0 rgba(255, 255, 255, 0.98),
+    -1px 1px 0 rgba(255, 255, 255, 0.98),
+    1px 1px 0 rgba(255, 255, 255, 0.98),
+    0 7px 14px rgba(0, 42, 68, 0.32);
+  transform: translateY(-2px) scale(1.14);
+}
+
+.poster-top-menu nav a:hover::after,
+.poster-top-menu nav a:focus-visible::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.poster-top-menu nav a:active {
+  transform: translateY(0) scale(1.06);
 }
 
 .poster-radio-hotspot {
@@ -1395,27 +1450,28 @@ button {
   }
 
   .poster-top-menu {
-    right: 10px;
-    left: 10px;
+    left: 4.6%;
+    width: 82%;
   }
 
   .poster-top-menu {
-    top: 10px;
-    align-items: stretch;
+    top: 1.5%;
+    align-items: flex-start;
     flex-direction: column;
-    gap: 8px;
-    padding: 8px;
+    gap: 5px;
+    padding: 0;
   }
 
   .poster-top-menu nav {
     flex-wrap: wrap;
-    justify-content: stretch;
+    justify-content: flex-start;
+    gap: 5px 9px;
   }
 
   .poster-top-menu nav a {
-    flex: 1;
-    padding: 7px 5px;
-    text-align: center;
+    flex: 0 0 auto;
+    padding: 4px 0;
+    text-align: left;
   }
 
   .riding-logo-sub {
