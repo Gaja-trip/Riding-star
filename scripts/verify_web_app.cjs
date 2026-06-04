@@ -138,11 +138,16 @@ async function main() {
     assert.ok(homeHtml.includes("전주FM"));
     assert.ok(homeHtml.includes("/archive.html"));
     assert.ok(archiveHtml.includes("archiveSearch"));
+    assert.ok(archiveHtml.includes("archive-body"));
     assert.ok(archiveHtml.includes("날짜별 회차 방송 내용"));
     assert.ok(archiveHtml.includes("/archive.js"));
     const castHtml = await requestText("/cast.html");
     assert.ok(castHtml.includes("cast-park-junggyu.png"));
     assert.ok(castHtml.includes("cast-kang-wanggyu.png"));
+    assert.ok(castHtml.includes("cast-body"));
+    assert.ok(castHtml.includes("회차별 게스트"));
+    assert.ok(castHtml.includes("11회"));
+    assert.ok(castHtml.includes("김길중"));
     assert.ok(scenarioHtml.includes("Riding-star Scenario Hub"));
     assert.ok(scenarioHtml.includes("importMdBtn"));
     assert.ok(scenarioHtml.includes("openEpisodeBtn"));
@@ -153,6 +158,8 @@ async function main() {
     assert.ok(css.includes("archive-section"));
     assert.ok(css.includes("archive-page-main"));
     assert.ok(css.includes("archive-group h3 a"));
+    assert.ok(css.includes("body.cast-body"));
+    assert.ok(css.includes("cast-guest-list"));
     assert.ok(css.includes("episode-viewer"));
     assert.ok(homeJs.includes("parseEpisodeDate"));
     assert.ok(homeJs.includes("loadHomeStats"));
