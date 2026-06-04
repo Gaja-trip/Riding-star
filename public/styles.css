@@ -288,6 +288,8 @@ button {
   gap: 12px;
   align-items: center;
   margin-bottom: 22px;
+  color: var(--text);
+  text-decoration: none;
 }
 
 .brand-mark {
@@ -337,6 +339,31 @@ button {
   font-size: 18px;
   font-weight: 900;
   text-decoration: none;
+}
+
+.home-brand .riding-logo,
+.brand .riding-logo {
+  flex: 0 0 auto;
+}
+
+.home-brand .riding-logo-ko,
+.home-brand .riding-logo-green,
+.brand .riding-logo-ko,
+.brand .riding-logo-green {
+  font-size: clamp(20px, 2.8vw, 30px);
+}
+
+.home-brand .riding-logo-star,
+.brand .riding-logo-star {
+  font-size: clamp(14px, 2vw, 20px);
+}
+
+.home-brand:hover .riding-logo,
+.home-brand:focus-visible .riding-logo,
+.brand:hover .riding-logo,
+.brand:focus-visible .riding-logo {
+  filter: saturate(1.16);
+  transform: translateY(-1px) scale(1.04);
 }
 
 .home-nav nav {
