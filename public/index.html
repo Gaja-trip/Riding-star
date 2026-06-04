@@ -7,64 +7,49 @@
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body class="home-body">
-    <header class="home-nav">
-      <a class="home-brand" href="/">
-        <span class="brand-mark">RS</span>
-        <span>Riding-star</span>
-      </a>
-      <nav aria-label="주요 메뉴">
-        <a class="active" href="/">홈</a>
-        <a href="/archive.html">회차 찾기</a>
-        <a href="/scenarios.html">시나리오 관리</a>
-      </nav>
-    </header>
-
-    <main class="home-dashboard">
-      <section class="home-hero" aria-label="Riding-star 홈">
-        <div class="home-poster">
+    <main class="poster-home" aria-label="Riding-star 메인">
+      <section class="poster-stage" aria-label="Riding-star 방송 안내">
+        <div class="poster-frame">
           <img src="/assets/riding-star-main.png" alt="자전거 토크쇼 Riding Star 방송 안내 포스터">
-        </div>
 
-        <div class="home-overview">
-          <div class="home-title">
-            <span class="status-chip">방송 제작실</span>
-            <h1>Riding-star</h1>
-            <p>자전거 이야기를 회차별로 등록하고, 팀원과 청취자가 함께 확인할 수 있는 방송 시나리오 공간입니다.</p>
+          <div class="poster-top-menu" aria-label="주요 바로가기">
+            <a class="poster-brand" href="/">
+              <span class="brand-mark">RS</span>
+              <span>Riding-star</span>
+            </a>
+            <nav>
+              <a href="/cast.html">출연진</a>
+              <a href="/archive.html">회차 보기</a>
+              <a href="https://broad-script.vercel.app" target="_blank" rel="noopener">시나리오 관리</a>
+            </nav>
           </div>
 
-          <div class="home-stats" aria-label="등록 현황">
+          <div class="poster-quick-panel" aria-label="Riding-star 메뉴">
             <div>
-              <strong id="episodeCount">0</strong>
-              <span>등록 회차</span>
+              <span class="status-chip">Riding-star</span>
+              <h1>방송 메뉴</h1>
+              <p>포스터 안의 메뉴에서 출연진, 회차별 방송 내용, 시나리오 관리로 바로 이동합니다.</p>
             </div>
-            <div>
-              <strong id="latestDate">-</strong>
-              <span>최근 방송일</span>
-            </div>
-          </div>
 
-          <div class="home-menu-grid" aria-label="전체 메뉴">
-            <a class="home-menu-card primary" href="/scenarios.html">
-              <strong>시나리오 관리</strong>
-              <span>시간표, 대본, 음악, PDF</span>
-            </a>
-            <a class="home-menu-card" href="/archive.html">
-              <strong>회차 검색</strong>
-              <span>년, 월, 일과 키워드로 찾기</span>
-            </a>
-            <a class="home-menu-card" href="/scenarios.html#import">
-              <strong>MD 가져오기</strong>
-              <span>작성한 MD를 회차로 변환</span>
-            </a>
-            <a class="home-menu-card" href="/scenarios.html#script">
-              <strong>대본 보기</strong>
-              <span>오프닝, 토크, 엔딩 분리</span>
-            </a>
+            <div class="poster-actions">
+              <a class="poster-action primary" href="https://broad-script.vercel.app" target="_blank" rel="noopener">
+                <strong>시나리오 관리</strong>
+                <span>방송 대본 작성/수정</span>
+              </a>
+              <a class="poster-action" href="/cast.html">
+                <strong>출연진</strong>
+                <span>진행자와 게스트 소개</span>
+              </a>
+              <a class="poster-action" href="/archive.html">
+                <strong>회차 보기</strong>
+                <span><b id="episodeCount">0</b>개 회차 · 최근 <b id="latestDate">-</b></span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
     </main>
 
-    <script src="/home.js"></script>
+    <script src="/home.js?v=poster-menu"></script>
   </body>
 </html>
