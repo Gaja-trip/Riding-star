@@ -57,6 +57,8 @@ function parseEpisodeDate(episode) {
 }
 
 async function loadHomeStats() {
+  if (!homeCount && !homeLatestDate) return;
+
   try {
     const state = await requestJson("/api/state");
     const episodes = state.episodes || [];
@@ -66,11 +68,11 @@ async function loadHomeStats() {
       .sort()
       .at(-1);
 
-    homeCount.textContent = String(episodes.length);
-    homeLatestDate.textContent = latest || "-";
+    if (homeCount) homeCount.textContent = String(episodes.length);
+    if (homeLatestDate) homeLatestDate.textContent = latest || "-";
   } catch (error) {
-    homeCount.textContent = "-";
-    homeLatestDate.textContent = "-";
+    if (homeCount) homeCount.textContent = "-";
+    if (homeLatestDate) homeLatestDate.textContent = "-";
   }
 }
 
