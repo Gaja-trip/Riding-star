@@ -157,6 +157,7 @@ async function main() {
     assert.ok(castHtml.includes("menu-scenario.svg"));
     assert.ok(castHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
     assert.ok(castHtml.includes("회차별 게스트"));
+    assert.ok(castHtml.includes("김원섭"));
     assert.ok(castHtml.includes("11회"));
     assert.ok(castHtml.includes("김길중"));
     assert.ok(scenarioHtml.includes("Riding-star Scenario Hub"));

@@ -1758,11 +1758,11 @@ body.viewer-body .home-nav {
   }
 
   .poster-menu-label-img {
-    height: clamp(14px, 3.4vw, 18px);
+    height: clamp(13px, 3vw, 17px);
   }
 
   .home-menu-label-img {
-    height: clamp(20px, 5vw, 26px);
+    height: clamp(18px, 4.5vw, 24px);
   }
 
   .riding-logo-sub {
