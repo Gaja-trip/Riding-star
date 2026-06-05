@@ -259,7 +259,7 @@ body.archive-body > * {
 }
 
 .poster-menu-label-img {
-  height: clamp(23px, 2.15vw, 31px);
+  height: clamp(21px, 2vw, 28px);
   filter:
     drop-shadow(0 1px 0 rgba(255, 255, 255, 0.96))
     drop-shadow(0 4px 8px rgba(0, 42, 68, 0.22));
@@ -488,7 +488,7 @@ body.viewer-body .home-nav {
 }
 
 .home-menu-label-img {
-  height: clamp(33px, 3.2vw, 43px);
+  height: clamp(30px, 2.9vw, 39px);
   filter:
     drop-shadow(0 1px 0 rgba(255, 255, 255, 0.92))
     drop-shadow(0 4px 8px rgba(8, 43, 61, 0.2));
@@ -1758,11 +1758,11 @@ body.viewer-body .home-nav {
   }
 
   .poster-menu-label-img {
-    height: clamp(15px, 3.8vw, 20px);
+    height: clamp(14px, 3.4vw, 18px);
   }
 
   .home-menu-label-img {
-    height: clamp(22px, 5.6vw, 29px);
+    height: clamp(20px, 5vw, 26px);
   }
 
   .riding-logo-sub {

@@ -140,10 +140,12 @@ async function main() {
     assert.ok(homeHtml.includes("menu-cast.svg"));
     assert.ok(homeHtml.includes("menu-archive.svg"));
     assert.ok(homeHtml.includes("menu-scenario.svg"));
+    assert.ok(homeHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
     assert.ok(homeHtml.includes("/archive.html"));
     assert.ok(archiveHtml.includes("archiveSearch"));
     assert.ok(archiveHtml.includes("archive-body"));
     assert.ok(archiveHtml.includes("날짜별 회차 방송 내용"));
+    assert.ok(archiveHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
     assert.ok(archiveHtml.includes("/archive.js"));
     const castHtml = await requestText("/cast.html");
     assert.ok(castHtml.includes("cast-park-junggyu.png"));
@@ -153,6 +155,7 @@ async function main() {
     assert.ok(castHtml.includes("menu-cast.svg"));
     assert.ok(castHtml.includes("menu-archive.svg"));
     assert.ok(castHtml.includes("menu-scenario.svg"));
+    assert.ok(castHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
     assert.ok(castHtml.includes("회차별 게스트"));
     assert.ok(castHtml.includes("11회"));
     assert.ok(castHtml.includes("김길중"));
@@ -163,6 +166,7 @@ async function main() {
     assert.ok(scenarioHtml.includes("<option>샘플</option>"));
     assert.ok(scenarioHtml.includes("exportPdfBtn"));
     assert.ok(episodeHtml.includes("episodeRoot"));
+    assert.ok(episodeHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
     assert.ok(css.includes("archive-section"));
     assert.ok(css.includes("archive-page-main"));
     assert.ok(css.includes("archive-group h3 a"));
