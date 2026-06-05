@@ -76,6 +76,15 @@ function requestText(urlPath) {
   });
 }
 
+function assertOrdered(source, values, label) {
+  let cursor = -1;
+  for (const value of values) {
+    const next = source.indexOf(value);
+    assert.ok(next > cursor, `${label} should contain ${value} in order.`);
+    cursor = next;
+  }
+}
+
 async function waitForServer(server) {
   const startedAt = Date.now();
   let lastError;
@@ -135,27 +144,35 @@ async function main() {
     const printJs = await requestText("/print.js");
 
     assert.ok(homeHtml.includes("riding-star-main.png"));
-    assert.ok(homeHtml.includes("전주FM"));
-    assert.ok(homeHtml.includes("menu-jeonjufm.svg"));
+    assert.ok(homeHtml.includes("종합정보"));
+    assert.ok(homeHtml.includes("menu-info.svg"));
     assert.ok(homeHtml.includes("menu-cast.svg"));
     assert.ok(homeHtml.includes("menu-archive.svg"));
     assert.ok(homeHtml.includes("menu-scenario.svg"));
+    assert.ok(homeHtml.includes('href="https://bicycle-trip.vercel.app/" aria-label="종합정보"'));
     assert.ok(homeHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
+    assert.ok(!homeHtml.includes("menu-jeonjufm.svg"));
+    assert.ok(!homeHtml.includes("https://jcfm.kr"));
+    assertOrdered(homeHtml, ["menu-info.svg", "menu-scenario.svg", "menu-archive.svg", "menu-cast.svg"], "Home menu");
     assert.ok(homeHtml.includes("/archive.html"));
     assert.ok(archiveHtml.includes("archiveSearch"));
     assert.ok(archiveHtml.includes("archive-body"));
     assert.ok(archiveHtml.includes("날짜별 회차 방송 내용"));
+    assert.ok(archiveHtml.includes('href="https://bicycle-trip.vercel.app/" aria-label="종합정보"'));
     assert.ok(archiveHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
+    assertOrdered(archiveHtml, ["menu-info.svg", "menu-scenario.svg", "menu-archive.svg", "menu-cast.svg"], "Archive menu");
     assert.ok(archiveHtml.includes("/archive.js"));
     const castHtml = await requestText("/cast.html");
     assert.ok(castHtml.includes("cast-park-junggyu.png"));
     assert.ok(castHtml.includes("cast-kang-wanggyu.png"));
     assert.ok(castHtml.includes("cast-body"));
-    assert.ok(castHtml.includes("menu-home.svg"));
+    assert.ok(castHtml.includes("menu-info.svg"));
     assert.ok(castHtml.includes("menu-cast.svg"));
     assert.ok(castHtml.includes("menu-archive.svg"));
     assert.ok(castHtml.includes("menu-scenario.svg"));
+    assert.ok(castHtml.includes('href="https://bicycle-trip.vercel.app/" aria-label="종합정보"'));
     assert.ok(castHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
+    assertOrdered(castHtml, ["menu-info.svg", "menu-scenario.svg", "menu-archive.svg", "menu-cast.svg"], "Cast menu");
     assert.ok(castHtml.includes("회차별 게스트"));
     assert.ok(castHtml.includes("김원섭"));
     assert.ok(castHtml.includes("11회"));
@@ -167,7 +184,9 @@ async function main() {
     assert.ok(scenarioHtml.includes("<option>샘플</option>"));
     assert.ok(scenarioHtml.includes("exportPdfBtn"));
     assert.ok(episodeHtml.includes("episodeRoot"));
+    assert.ok(episodeHtml.includes('href="https://bicycle-trip.vercel.app/" aria-label="종합정보"'));
     assert.ok(episodeHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
+    assertOrdered(episodeHtml, ["menu-info.svg", "menu-scenario.svg", "menu-archive.svg", "menu-cast.svg"], "Episode menu");
     assert.ok(css.includes("archive-section"));
     assert.ok(css.includes("archive-page-main"));
     assert.ok(css.includes("archive-group h3 a"));
