@@ -1,21 +1,40 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Riding-star 출연진</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="/styles.css?v=mobile-menu-single-row">
+=======
+    <link rel="stylesheet" href="/styles.css?v=menu-label-images">
+>>>>>>> c7f3e3e6af9417d8b85aaff7c24db156df014fee
   </head>
-  <body class="home-body">
+  <body class="home-body cast-body">
     <header class="home-nav">
       <a class="home-brand" href="/" aria-label="Riding-star 메인페이지로 이동">
         <img class="site-logo-img" src="/assets/riding-star-logo-transparent.png" alt="라이딩스타 Riding Star">
       </a>
       <nav aria-label="주요 메뉴">
+<<<<<<< HEAD
         <a href="/">홈</a>
         <a class="active" href="/cast.html">출연진</a>
         <a href="/archive.html">회차 찾기</a>
         <a href="https://broad-script.vercel.app">시나리오</a>
+=======
+        <a href="/" aria-label="홈">
+          <img class="menu-label-img home-menu-label-img" src="/assets/menu-home.svg" alt="홈">
+        </a>
+        <a class="active" href="/cast.html" aria-label="출연진">
+          <img class="menu-label-img home-menu-label-img" src="/assets/menu-cast.svg" alt="출연진">
+        </a>
+        <a href="/archive.html" aria-label="회차보기">
+          <img class="menu-label-img home-menu-label-img" src="/assets/menu-archive.svg" alt="회차보기">
+        </a>
+        <a href="https://broad-script.vercel.app" target="_blank" rel="noopener" aria-label="시나리오">
+          <img class="menu-label-img home-menu-label-img" src="/assets/menu-scenario.svg" alt="시나리오">
+        </a>
+>>>>>>> c7f3e3e6af9417d8b85aaff7c24db156df014fee
       </nav>
     </header>
 
@@ -28,6 +47,9 @@
 
       <section class="cast-grid" aria-label="진행자 소개">
         <article class="cast-card">
+          <div class="cast-portrait">
+            <img src="/assets/cast-park-junggyu.png" alt="진행자 박정규 캐릭터 이미지">
+          </div>
           <span class="cast-role">진행</span>
           <h2>박정규</h2>
           <p class="cast-line">만경강을 달리는 아줌마, 라이딩스타의 박정규입니다.</p>
@@ -35,19 +57,36 @@
         </article>
 
         <article class="cast-card">
+          <div class="cast-portrait">
+            <img src="/assets/cast-kang-wanggyu.png" alt="진행자 강왕규 캐릭터 이미지">
+          </div>
           <span class="cast-role">진행</span>
           <h2>강왕규</h2>
           <p class="cast-line">페달에 발만 올리면 행복해지는 남자, 라이딩스타의 강왕규입니다.</p>
           <p>안전한 라이딩 정보와 코스 이야기를 편안한 토크로 풀어갑니다.</p>
         </article>
 
-        <article class="cast-card">
+      </section>
+
+      <section class="cast-guest-section" aria-label="회차별 게스트">
+        <div class="cast-guest-head">
           <span class="cast-role">게스트</span>
           <h2>회차별 게스트</h2>
-          <p class="cast-line">라이더들의 경험과 추천 음악을 함께 기록합니다.</p>
-          <p>각 회차의 게스트 정보와 방송 내용은 회차 보기에서 확인할 수 있습니다.</p>
-          <a class="button" href="/archive.html">회차별 게스트 보기</a>
-        </article>
+          <p>라이딩스타에 함께한 게스트를 회차 순서대로 정리했습니다.</p>
+        </div>
+        <ol class="cast-guest-list">
+          <li><span class="cast-guest-episode">1회</span><strong>이은영</strong></li>
+          <li><span class="cast-guest-episode">2회</span><strong>황수덕</strong></li>
+          <li><span class="cast-guest-episode">3회</span><strong>진경은</strong></li>
+          <li><span class="cast-guest-episode">4회</span><strong>허옥희</strong></li>
+          <li><span class="cast-guest-episode">5회</span><strong>이원섭</strong></li>
+          <li><span class="cast-guest-episode">6회</span><strong>장인수</strong></li>
+          <li><span class="cast-guest-episode">7회</span><strong>김상윤</strong></li>
+          <li><span class="cast-guest-episode">8회</span><strong>박혜진</strong></li>
+          <li><span class="cast-guest-episode">9회</span><strong>김미경</strong></li>
+          <li><span class="cast-guest-episode">10회</span><strong>김길중</strong></li>
+          <li><span class="cast-guest-episode">11회</span><strong>김길중</strong></li>
+        </ol>
       </section>
     </main>
   </body>

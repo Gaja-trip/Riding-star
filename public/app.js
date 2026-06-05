@@ -8,6 +8,7 @@ const SCRIPT_FIELDS = [
 ];
 
 const SCRIPT_VIEWS = [["all", "전체"], ...SCRIPT_FIELDS];
+const pageParams = new URLSearchParams(window.location.search);
 
 const elements = {
   editorName: document.querySelector("#editorName"),
@@ -34,7 +35,7 @@ const elements = {
 };
 
 let state = null;
-let selectedEpisodeId = localStorage.getItem("ridingStarSelectedEpisode") || "";
+let selectedEpisodeId = pageParams.get("episode") || localStorage.getItem("ridingStarSelectedEpisode") || "";
 let selectedScriptView = localStorage.getItem("ridingStarScriptView") || "all";
 let dirty = false;
 let saveTimer = null;
@@ -932,6 +933,7 @@ document.addEventListener("click", (event) => {
   const episodeButton = target.closest("[data-episode-id]");
   if (episodeButton) {
     selectedEpisodeId = episodeButton.dataset.episodeId;
+    history.replaceState(null, "", `${window.location.pathname}?episode=${encodeURIComponent(selectedEpisodeId)}`);
     renderAll();
     return;
   }
