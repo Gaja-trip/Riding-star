@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Riding-star 회차 보기</title>
-    <link rel="stylesheet" href="/styles.css?v=info-menu-order">
+    <title>Riding-star 여행정보</title>
+    <link rel="stylesheet" href="/styles.css?v=travel-info-hub">
   </head>
-  <body class="viewer-body">
+  <body class="home-body travel-body">
     <header class="home-nav">
       <a class="home-brand" href="/" aria-label="Riding-star 메인페이지로 이동">
         <img class="site-logo-img" src="/assets/riding-star-logo-transparent.png" alt="라이딩스타 Riding Star">
       </a>
       <nav aria-label="주요 메뉴">
-        <a href="/travel-info.html" aria-label="여행정보">
+        <a class="active" href="/travel-info.html" aria-label="여행정보">
           <img class="menu-label-img home-menu-label-img" src="/assets/menu-info.svg?v=travel-info-menu" alt="여행정보">
         </a>
         <a href="https://broad-script.vercel.app" aria-label="시나리오">
@@ -27,10 +27,26 @@
       </nav>
     </header>
 
-    <main id="episodeRoot" class="episode-viewer">
-      <p class="empty-preview">회차 내용을 불러오는 중입니다.</p>
-    </main>
+    <main class="travel-page-main">
+      <section class="travel-hero" aria-label="라이딩 여행정보">
+        <span class="status-chip">Riding-star Travel</span>
+        <h1>여행정보</h1>
+        <p>라이딩 코스, 지도, 여행 아이디어를 목적에 맞게 골라 볼 수 있도록 연결했습니다.</p>
+      </section>
 
-    <script src="/episode.js"></script>
+      <section class="travel-link-grid" aria-label="여행정보 바로가기">
+        <a class="travel-link-card primary" href="https://bicycle-trip.vercel.app/">
+          <span>라이딩 여행 가이드</span>
+          <strong>bicycle-trip</strong>
+          <p>자전거 여행 코스와 라이딩 정보를 둘러봅니다.</p>
+        </a>
+
+        <a class="travel-link-card" href="https://bicycle-tripmap.vercel.app/">
+          <span>라이딩 여행 지도</span>
+          <strong>bicycle-tripmap</strong>
+          <p>지도 기반으로 코스와 주변 정보를 확인합니다.</p>
+        </a>
+      </section>
+    </main>
   </body>
 </html>
