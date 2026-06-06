@@ -700,20 +700,20 @@ body.viewer-body .home-nav {
 
 .travel-link-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
 
 .travel-link-card {
   display: grid;
   align-content: start;
-  gap: 10px;
-  min-height: 210px;
+  gap: 14px;
   border: 1px solid rgba(18, 88, 71, 0.16);
   border-radius: 8px;
   background: rgba(255, 253, 248, 0.94);
   color: var(--text);
-  padding: clamp(18px, 3vw, 28px);
+  overflow: hidden;
+  padding: 0;
   text-decoration: none;
   box-shadow: var(--shadow);
   backdrop-filter: blur(10px);
@@ -725,10 +725,52 @@ body.viewer-body .home-nav {
 }
 
 .travel-link-card:hover,
-.travel-link-card:focus-visible {
+.travel-link-card:focus-within {
   border-color: var(--accent);
   box-shadow: 0 18px 42px rgba(18, 88, 71, 0.14);
   transform: translateY(-2px);
+}
+
+.travel-preview-frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  border-bottom: 1px solid rgba(18, 88, 71, 0.14);
+  background:
+    linear-gradient(135deg, rgba(255, 253, 248, 0.74), rgba(225, 240, 235, 0.66)),
+    #e9f2ee;
+}
+
+.travel-preview-frame::before {
+  position: absolute;
+  top: 9px;
+  left: 10px;
+  z-index: 2;
+  width: 42px;
+  height: 10px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 5px 5px, #f18a00 0 4px, transparent 4px),
+    radial-gradient(circle at 20px 5px, #1d7a64 0 4px, transparent 4px),
+    radial-gradient(circle at 35px 5px, #285f9f 0 4px, transparent 4px);
+  content: "";
+  opacity: 0.84;
+}
+
+.travel-preview-frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: white;
+  pointer-events: none;
+}
+
+.travel-link-body {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 0 clamp(16px, 2vw, 22px) clamp(18px, 2vw, 24px);
 }
 
 .travel-link-card span {
@@ -752,6 +794,11 @@ body.viewer-body .home-nav {
   color: #41564d;
   font-size: 16px;
   line-height: 1.62;
+}
+
+.travel-link-card .button {
+  justify-self: start;
+  margin-top: 4px;
 }
 
 .cast-grid {

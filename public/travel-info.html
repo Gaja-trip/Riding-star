@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Riding-star 여행정보</title>
-    <link rel="stylesheet" href="/styles.css?v=travel-info-hub">
+    <title>Riding-star 정보</title>
+    <link rel="stylesheet" href="/styles.css?v=info-live-previews">
   </head>
   <body class="home-body travel-body">
     <header class="home-nav">
@@ -12,8 +12,8 @@
         <img class="site-logo-img" src="/assets/riding-star-logo-transparent.png" alt="라이딩스타 Riding Star">
       </a>
       <nav aria-label="주요 메뉴">
-        <a class="active" href="/travel-info.html" aria-label="여행정보">
-          <img class="menu-label-img home-menu-label-img" src="/assets/menu-info.svg?v=travel-info-menu" alt="여행정보">
+        <a class="active" href="/travel-info.html" aria-label="정보">
+          <img class="menu-label-img home-menu-label-img" src="/assets/menu-info.svg?v=refined-info-menu" alt="정보">
         </a>
         <a href="https://broad-script.vercel.app" aria-label="시나리오">
           <img class="menu-label-img home-menu-label-img" src="/assets/menu-scenario.svg?v=transparent-menu" alt="시나리오">
@@ -28,24 +28,48 @@
     </header>
 
     <main class="travel-page-main">
-      <section class="travel-hero" aria-label="라이딩 여행정보">
-        <span class="status-chip">Riding-star Travel</span>
-        <h1>여행정보</h1>
-        <p>라이딩 코스, 지도, 여행 아이디어를 목적에 맞게 골라 볼 수 있도록 연결했습니다.</p>
+      <section class="travel-hero" aria-label="라이딩 정보">
+        <span class="status-chip">Riding-star Info</span>
+        <h1>정보</h1>
+        <p>라이딩 코스, 지도, 여행 아이디어를 실제 화면으로 훑어보고 원하는 웹으로 이동합니다.</p>
       </section>
 
-      <section class="travel-link-grid" aria-label="여행정보 바로가기">
-        <a class="travel-link-card primary" href="https://bicycle-trip.vercel.app/">
-          <span>라이딩 여행 가이드</span>
-          <strong>bicycle-trip</strong>
-          <p>자전거 여행 코스와 라이딩 정보를 둘러봅니다.</p>
-        </a>
+      <section class="travel-link-grid" aria-label="정보 바로가기">
+        <article class="travel-link-card primary">
+          <div class="travel-preview-frame">
+            <iframe title="bicycle-trip 메인 화면" src="https://bicycle-trip.vercel.app/" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div class="travel-link-body">
+            <span>라이딩 여행 가이드</span>
+            <strong>bicycle-trip</strong>
+            <p>자전거 여행 코스와 라이딩 정보를 둘러봅니다.</p>
+            <a class="button primary" href="https://bicycle-trip.vercel.app/">사이트 열기</a>
+          </div>
+        </article>
 
-        <a class="travel-link-card" href="https://bicycle-tripmap.vercel.app/">
-          <span>라이딩 여행 지도</span>
-          <strong>bicycle-tripmap</strong>
-          <p>지도 기반으로 코스와 주변 정보를 확인합니다.</p>
-        </a>
+        <article class="travel-link-card">
+          <div class="travel-preview-frame">
+            <iframe title="bicycle-tripmap 메인 화면" src="https://bicycle-tripmap.vercel.app/" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div class="travel-link-body">
+            <span>라이딩 여행 지도</span>
+            <strong>bicycle-tripmap</strong>
+            <p>지도 기반으로 코스와 주변 정보를 확인합니다.</p>
+            <a class="button primary" href="https://bicycle-tripmap.vercel.app/">사이트 열기</a>
+          </div>
+        </article>
+
+        <article class="travel-link-card">
+          <div class="travel-preview-frame">
+            <iframe title="bicycle-map 메인 화면" src="https://hopesound.github.io/bicycle-map/" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div class="travel-link-body">
+            <span>자전거 지도</span>
+            <strong>bicycle-map</strong>
+            <p>지도형 화면에서 자전거 관련 위치와 코스를 살펴봅니다.</p>
+            <a class="button primary" href="https://hopesound.github.io/bicycle-map/">사이트 열기</a>
+          </div>
+        </article>
       </section>
     </main>
   </body>
