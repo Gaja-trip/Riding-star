@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 72" role="img" aria-label="종합정보">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 72" role="img" aria-label="여행정보">
   <defs>
     <linearGradient id="menuInk" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0" stop-color="#0d3d7a"/>
@@ -10,6 +10,6 @@
       <feDropShadow dx="0" dy="1" stdDeviation="0.5" flood-color="#ffffff" flood-opacity="0.95"/>
     </filter>
   </defs>
-  <text x="110" y="48" text-anchor="middle" filter="url(#menuLift)" font-family="'Black Han Sans','Jua','Malgun Gothic',sans-serif" font-size="40" font-weight="900" letter-spacing="0" paint-order="stroke fill" stroke="#fffdf8" stroke-linejoin="round" stroke-width="10" fill="url(#menuInk)">종합정보</text>
+  <text x="110" y="48" text-anchor="middle" filter="url(#menuLift)" font-family="'Black Han Sans','Jua','Malgun Gothic',sans-serif" font-size="40" font-weight="900" letter-spacing="0" paint-order="stroke fill" stroke="#fffdf8" stroke-linejoin="round" stroke-width="10" fill="url(#menuInk)">여행정보</text>
   <path d="M42 56 C78 65 151 65 181 54" fill="none" stroke="#f18a00" stroke-linecap="round" stroke-width="5"/>
 </svg>
