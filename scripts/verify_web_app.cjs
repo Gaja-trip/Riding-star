@@ -141,6 +141,7 @@ async function main() {
     const archiveJs = await requestText("/archive.js");
     const appJs = await requestText("/app.js");
     const episodeJs = await requestText("/episode.js");
+    const travelJs = await requestText("/travel-info.js");
     const printHtml = await requestText("/print.html");
     const printJs = await requestText("/print.js");
     const menuInfoSvg = await requestText("/assets/menu-info.svg");
@@ -167,9 +168,13 @@ async function main() {
     assert.ok(travelHtml.includes('href="https://bicycle-trip.vercel.app/"'));
     assert.ok(travelHtml.includes('href="https://bicycle-tripmap.vercel.app/"'));
     assert.ok(travelHtml.includes('href="https://hopesound.github.io/bicycle-map/"'));
-    assert.ok(travelHtml.includes('<iframe title="bicycle-trip 메인 화면"'));
-    assert.ok(travelHtml.includes('<iframe title="bicycle-tripmap 메인 화면"'));
-    assert.ok(travelHtml.includes('<iframe title="bicycle-map 메인 화면"'));
+    assert.ok(travelHtml.includes("info-site-panel"));
+    assert.ok(travelHtml.includes("infoPreviewFrame"));
+    assert.ok(travelHtml.includes("infoPreviewOpen"));
+    assert.ok(travelHtml.includes('data-title="bicycle-trip"'));
+    assert.ok(travelHtml.includes('data-title="bicycle-tripmap"'));
+    assert.ok(travelHtml.includes('data-title="bicycle-map"'));
+    assert.ok(travelHtml.includes('<iframe id="infoPreviewFrame" title="bicycle-trip 메인 화면"'));
     assertOrdered(travelHtml, ["menu-info.svg", "menu-scenario.svg", "menu-archive.svg", "menu-cast.svg"], "Travel menu");
     assert.ok(archiveHtml.includes("archiveSearch"));
     assert.ok(archiveHtml.includes("archive-body"));
@@ -212,8 +217,8 @@ async function main() {
     assert.ok(css.includes("menu-label-img"));
     assert.ok(css.includes("poster-menu-label-img"));
     assert.ok(css.includes("home-menu-label-img"));
-    assert.ok(css.includes("travel-link-grid"));
-    assert.ok(css.includes("travel-preview-frame"));
+    assert.ok(css.includes("info-browser"));
+    assert.ok(css.includes("info-preview-frame"));
     assert.ok(css.includes("episode-viewer"));
     assert.ok(homeJs.includes("parseEpisodeDate"));
     assert.ok(homeJs.includes("loadHomeStats"));
@@ -226,6 +231,8 @@ async function main() {
     assert.ok(appJs.includes("- 상태: 샘플"));
     assert.ok(episodeJs.includes("renderEpisode"));
     assert.ok(episodeJs.includes("시나리오 관리"));
+    assert.ok(travelJs.includes("selectInfoSite"));
+    assert.ok(travelJs.includes("infoPreviewFrame.src"));
     assert.ok(printHtml.includes("printBtn"));
     assert.ok(printJs.includes("renderEpisode"));
     assert.ok(menuInfoSvg.includes("정보"));

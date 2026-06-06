@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Riding-star 정보</title>
-    <link rel="stylesheet" href="/styles.css?v=info-live-previews">
+    <link rel="stylesheet" href="/styles.css?v=info-selector-preview">
   </head>
   <body class="home-body travel-body">
     <header class="home-nav">
@@ -31,46 +31,41 @@
       <section class="travel-hero" aria-label="라이딩 정보">
         <span class="status-chip">Riding-star Info</span>
         <h1>정보</h1>
-        <p>라이딩 코스, 지도, 여행 아이디어를 실제 화면으로 훑어보고 원하는 웹으로 이동합니다.</p>
       </section>
 
-      <section class="travel-link-grid" aria-label="정보 바로가기">
-        <article class="travel-link-card primary">
-          <div class="travel-preview-frame">
-            <iframe title="bicycle-trip 메인 화면" src="https://bicycle-trip.vercel.app/" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
-          <div class="travel-link-body">
-            <span>라이딩 여행 가이드</span>
-            <strong>bicycle-trip</strong>
-            <p>자전거 여행 코스와 라이딩 정보를 둘러봅니다.</p>
-            <a class="button primary" href="https://bicycle-trip.vercel.app/">사이트 열기</a>
-          </div>
-        </article>
+      <section class="info-browser" aria-label="정보 사이트 미리보기">
+        <aside class="info-site-panel" aria-label="사이트 연결">
+          <h2>사이트 연결</h2>
+          <div class="info-site-list">
+            <article class="info-site-item active">
+              <button class="info-site-button" type="button" data-title="bicycle-trip" data-url="https://bicycle-trip.vercel.app/" aria-pressed="true">bicycle-trip</button>
+              <a class="info-site-open" href="https://bicycle-trip.vercel.app/" target="_blank" rel="noopener">열기</a>
+            </article>
 
-        <article class="travel-link-card">
-          <div class="travel-preview-frame">
-            <iframe title="bicycle-tripmap 메인 화면" src="https://bicycle-tripmap.vercel.app/" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
-          <div class="travel-link-body">
-            <span>라이딩 여행 지도</span>
-            <strong>bicycle-tripmap</strong>
-            <p>지도 기반으로 코스와 주변 정보를 확인합니다.</p>
-            <a class="button primary" href="https://bicycle-tripmap.vercel.app/">사이트 열기</a>
-          </div>
-        </article>
+            <article class="info-site-item">
+              <button class="info-site-button" type="button" data-title="bicycle-tripmap" data-url="https://bicycle-tripmap.vercel.app/" aria-pressed="false">bicycle-tripmap</button>
+              <a class="info-site-open" href="https://bicycle-tripmap.vercel.app/" target="_blank" rel="noopener">열기</a>
+            </article>
 
-        <article class="travel-link-card">
-          <div class="travel-preview-frame">
-            <iframe title="bicycle-map 메인 화면" src="https://hopesound.github.io/bicycle-map/" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <article class="info-site-item">
+              <button class="info-site-button" type="button" data-title="bicycle-map" data-url="https://hopesound.github.io/bicycle-map/" aria-pressed="false">bicycle-map</button>
+              <a class="info-site-open" href="https://hopesound.github.io/bicycle-map/" target="_blank" rel="noopener">열기</a>
+            </article>
           </div>
-          <div class="travel-link-body">
-            <span>자전거 지도</span>
-            <strong>bicycle-map</strong>
-            <p>지도형 화면에서 자전거 관련 위치와 코스를 살펴봅니다.</p>
-            <a class="button primary" href="https://hopesound.github.io/bicycle-map/">사이트 열기</a>
+        </aside>
+
+        <section class="info-preview-stage" aria-label="선택한 사이트 화면">
+          <div class="info-preview-head">
+            <strong id="infoPreviewTitle">bicycle-trip</strong>
+            <a id="infoPreviewOpen" class="button primary" href="https://bicycle-trip.vercel.app/" target="_blank" rel="noopener">열기</a>
           </div>
-        </article>
+          <div class="info-preview-frame">
+            <iframe id="infoPreviewFrame" title="bicycle-trip 메인 화면" src="https://bicycle-trip.vercel.app/" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </section>
       </section>
     </main>
+
+    <script src="/travel-info.js?v=info-selector-preview"></script>
   </body>
 </html>
