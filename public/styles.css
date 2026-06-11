@@ -1840,10 +1840,12 @@ body.viewer-body .home-nav {
 
   .poster-home {
     padding: 8px;
+    place-items: start center;
   }
 
   .poster-stage {
-    min-height: calc(100svh - 16px);
+    min-height: auto;
+    place-items: start center;
   }
 
   .poster-frame {
@@ -1862,9 +1864,15 @@ body.viewer-body .home-nav {
   }
 
   .poster-logo-img {
-    height: clamp(18px, 5.2vw, 25px) !important;
-    max-width: 76px;
+    height: clamp(22px, 6vw, 28px) !important;
+    max-width: 88px;
     filter: drop-shadow(0 2px 4px rgba(13, 49, 80, 0.24));
+  }
+
+  .poster-brand {
+    border-radius: 6px;
+    background: rgba(255, 253, 248, 0.72);
+    padding: 1px 3px;
   }
 
   .poster-top-menu nav {
@@ -1877,11 +1885,22 @@ body.viewer-body .home-nav {
   .poster-top-menu nav a {
     flex: 0 1 auto;
     background: transparent;
-    font-size: clamp(9px, 2.5vw, 11px);
+    color: #0b3f7a;
+    font-size: clamp(10px, 2.75vw, 12px);
+    font-weight: 1000;
     line-height: 1;
-    padding: 3px 0;
+    min-height: 22px;
+    padding: 2px 0;
     text-align: center;
     text-shadow: 0 1px 3px rgba(0, 42, 68, 0.26);
+  }
+
+  .poster-top-menu nav a::before {
+    content: attr(aria-label);
+  }
+
+  .poster-top-menu nav a .poster-menu-label-img {
+    display: none;
   }
 
   .poster-top-menu nav a:hover {

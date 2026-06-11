@@ -168,12 +168,16 @@ async function main() {
     assert.ok(travelHtml.includes('href="https://bicycle-trip.vercel.app/"'));
     assert.ok(travelHtml.includes('href="https://bicycle-tripmap.vercel.app/"'));
     assert.ok(travelHtml.includes('href="https://hopesound.github.io/bicycle-map/"'));
+    assert.ok(travelHtml.includes('href="https://tgj-test.vercel.app/"'));
+    assert.ok(!travelHtml.includes("Riding-star Info"));
+    assert.ok(!travelHtml.includes("<h1>정보</h1>"));
     assert.ok(travelHtml.includes("info-site-panel"));
     assert.ok(travelHtml.includes("infoPreviewFrame"));
     assert.ok(travelHtml.includes("infoPreviewOpen"));
     assert.ok(travelHtml.includes('data-title="bicycle-trip"'));
     assert.ok(travelHtml.includes('data-title="bicycle-tripmap"'));
     assert.ok(travelHtml.includes('data-title="bicycle-map"'));
+    assert.ok(travelHtml.includes('data-title="tgj-test"'));
     assert.ok(travelHtml.includes('<iframe id="infoPreviewFrame" title="bicycle-trip 메인 화면"'));
     assertOrdered(travelHtml, ["menu-info.svg", "menu-scenario.svg", "menu-archive.svg", "menu-cast.svg"], "Travel menu");
     assert.ok(archiveHtml.includes("archiveSearch"));
@@ -219,6 +223,8 @@ async function main() {
     assert.ok(css.includes("home-menu-label-img"));
     assert.ok(css.includes("info-browser"));
     assert.ok(css.includes("info-preview-frame"));
+    assert.ok(css.includes("content: attr(aria-label)"));
+    assert.ok(css.includes(".poster-top-menu nav a .poster-menu-label-img"));
     assert.ok(css.includes("episode-viewer"));
     assert.ok(homeJs.includes("parseEpisodeDate"));
     assert.ok(homeJs.includes("loadHomeStats"));
