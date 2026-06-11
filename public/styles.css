@@ -93,6 +93,11 @@ body.travel-body > * {
   place-items: center;
 }
 
+.poster-mobile-top,
+.poster-mobile-bottom {
+  display: none;
+}
+
 .poster-frame {
   position: relative;
   overflow: hidden;
@@ -717,30 +722,23 @@ body.viewer-body .home-nav {
 
 .info-site-panel {
   align-content: start;
-  gap: 14px;
-  padding: 18px;
-}
-
-.info-site-panel h2 {
-  margin: 0;
-  color: var(--accent-dark);
-  font-size: 18px;
+  padding: 10px;
 }
 
 .info-site-list {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .info-site-item {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 8px;
+  gap: 6px;
   align-items: center;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 253, 248, 0.74);
-  padding: 8px;
+  padding: 6px;
   transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
 }
 
@@ -755,9 +753,9 @@ body.viewer-body .home-nav {
   background: transparent;
   color: var(--blue);
   min-height: 38px;
-  padding: 6px;
+  padding: 5px;
   text-align: left;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 900;
 }
 
@@ -771,8 +769,8 @@ body.viewer-body .home-nav {
   border-radius: 6px;
   background: #ffffff;
   color: var(--accent-dark);
-  min-width: 52px;
-  padding: 8px 10px;
+  min-width: 48px;
+  padding: 7px 9px;
   text-align: center;
   text-decoration: none;
   font-weight: 800;
@@ -1839,28 +1837,27 @@ body.viewer-body .home-nav {
   }
 
   .poster-home {
-    padding: 8px;
+    padding: 0;
     place-items: start center;
   }
 
   .poster-stage {
+    gap: 8px;
     min-height: auto;
     place-items: start center;
+    padding: 8px 8px 10px;
   }
 
   .poster-frame {
-    width: min(calc(100vw - 16px), calc((100svh - 16px) * 0.6667));
+    width: min(calc(100vw - 16px), calc((100svh - 110px) * 0.6667));
   }
 
   .poster-top-menu {
-    top: 1.25%;
-    left: 3.4%;
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: center;
-    gap: clamp(7px, 2vw, 10px);
-    width: 93.2%;
-    padding: 0;
+    display: none;
+  }
+
+  .poster-radio-hotspot {
+    display: none;
   }
 
   .poster-logo-img {
@@ -1875,49 +1872,81 @@ body.viewer-body .home-nav {
     padding: 1px 3px;
   }
 
-  .poster-top-menu nav {
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    gap: clamp(4px, 1.5vw, 7px);
+  .home-menu-label-img {
+    height: clamp(18px, 4.5vw, 24px);
+  }
+
+  .poster-mobile-top,
+  .poster-mobile-bottom {
+    display: flex;
+    width: min(100%, 420px);
+    border: 1px solid rgba(18, 88, 71, 0.14);
+    border-radius: 8px;
+    background: rgba(255, 253, 248, 0.88);
+    box-shadow: 0 8px 20px rgba(18, 88, 71, 0.08);
+    backdrop-filter: blur(10px);
+  }
+
+  .poster-mobile-top {
+    align-items: center;
+    gap: 8px;
+    padding: 5px 7px;
+  }
+
+  .poster-mobile-bottom {
+    padding: 6px 7px;
+  }
+
+  .poster-mobile-brand {
+    display: inline-flex;
+    flex: 0 0 auto;
+  }
+
+  .poster-mobile-logo-img {
+    height: clamp(28px, 8vw, 36px);
+    max-width: 92px;
+  }
+
+  .poster-mobile-nav {
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  .poster-mobile-top .poster-mobile-nav {
+    display: flex;
+    flex: 1 1 auto;
     min-width: 0;
   }
 
-  .poster-top-menu nav a {
-    flex: 0 1 auto;
-    background: transparent;
+  .poster-mobile-bottom.poster-mobile-nav {
+    display: flex;
+  }
+
+  .poster-mobile-nav a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    border-radius: 6px;
     color: #0b3f7a;
-    font-size: clamp(10px, 2.75vw, 12px);
-    font-weight: 1000;
-    line-height: 1;
-    min-height: 22px;
-    padding: 2px 0;
+    flex: 1 1 0;
+    padding: 3px 2px;
     text-align: center;
-    text-shadow: 0 1px 3px rgba(0, 42, 68, 0.26);
+    text-decoration: none;
+    font-size: clamp(11px, 3.2vw, 13px);
+    font-weight: 900;
+    line-height: 1.1;
   }
 
-  .poster-top-menu nav a::before {
-    content: attr(aria-label);
+  .poster-mobile-nav a:nth-child(2),
+  .poster-mobile-nav a:nth-child(4) {
+    color: #1d7a64;
   }
 
-  .poster-top-menu nav a .poster-menu-label-img {
-    display: none;
-  }
-
-  .poster-top-menu nav a:hover {
-    text-shadow: 0 2px 5px rgba(0, 42, 68, 0.32);
-    transform: translateY(-1px) scale(1.05);
-  }
-
-  .poster-top-menu nav a::after {
-    height: 1px;
-  }
-
-  .poster-menu-label-img {
-    height: clamp(13px, 3vw, 17px);
-  }
-
-  .home-menu-label-img {
-    height: clamp(18px, 4.5vw, 24px);
+  .poster-mobile-nav a:hover,
+  .poster-mobile-nav a:focus-visible {
+    background: rgba(225, 240, 235, 0.82);
   }
 
   .riding-logo-sub {
@@ -1965,11 +1994,28 @@ body.viewer-body .home-nav {
   }
 
   .info-site-panel {
-    padding: 14px;
+    padding: 8px;
   }
 
   .info-site-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .info-site-item {
+    gap: 4px;
+    padding: 5px;
+  }
+
+  .info-site-button {
+    min-height: 34px;
+    font-size: 13px;
+  }
+
+  .info-site-open {
+    min-width: 38px;
+    padding: 6px 7px;
+    font-size: 13px;
   }
 
   .info-preview-stage {

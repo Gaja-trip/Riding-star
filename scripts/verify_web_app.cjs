@@ -156,6 +156,10 @@ async function main() {
     assert.ok(homeHtml.includes("menu-cast.svg"));
     assert.ok(homeHtml.includes("menu-archive.svg"));
     assert.ok(homeHtml.includes("menu-scenario.svg"));
+    assert.ok(homeHtml.includes("poster-mobile-top"));
+    assert.ok(homeHtml.includes("poster-mobile-bottom"));
+    assert.ok(homeHtml.includes("모바일 상단 바로가기"));
+    assert.ok(homeHtml.includes("모바일 하단 바로가기"));
     assert.ok(homeHtml.includes('href="/travel-info.html" aria-label="정보"'));
     assert.ok(homeHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
     assert.ok(!homeHtml.includes("menu-jeonjufm.svg"));
@@ -223,8 +227,10 @@ async function main() {
     assert.ok(css.includes("home-menu-label-img"));
     assert.ok(css.includes("info-browser"));
     assert.ok(css.includes("info-preview-frame"));
-    assert.ok(css.includes("content: attr(aria-label)"));
-    assert.ok(css.includes(".poster-top-menu nav a .poster-menu-label-img"));
+    assert.ok(css.includes("poster-mobile-nav"));
+    assert.ok(css.includes("display: none"));
+    assert.ok(css.includes(".poster-radio-hotspot"));
+    assert.ok(css.includes("grid-template-columns: repeat(2, minmax(0, 1fr))"));
     assert.ok(css.includes("episode-viewer"));
     assert.ok(homeJs.includes("parseEpisodeDate"));
     assert.ok(homeJs.includes("loadHomeStats"));
