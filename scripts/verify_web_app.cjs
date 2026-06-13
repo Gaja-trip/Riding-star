@@ -146,6 +146,12 @@ async function main() {
     const printJs = await requestText("/print.js");
     const menuInfoSvg = await requestText("/assets/menu-info.svg");
     const menuCastSvg = await requestText("/assets/menu-cast.svg");
+    const textMenuOrder = [
+      'aria-label="정보">정보</a>',
+      'aria-label="시나리오">시나리오</a>',
+      'aria-label="회차보기">회차보기</a>',
+      'aria-label="출연진">출연진</a>',
+    ];
 
     assert.ok(homeHtml.includes("riding-star-main.png"));
     assert.ok(homeHtml.includes("jun6-travel-poster"));
@@ -183,25 +189,24 @@ async function main() {
     assert.ok(travelHtml.includes('data-title="bicycle-map"'));
     assert.ok(travelHtml.includes('data-title="tgj-test"'));
     assert.ok(travelHtml.includes('<iframe id="infoPreviewFrame" title="bicycle-trip 메인 화면"'));
-    assertOrdered(travelHtml, ["menu-info.svg", "menu-scenario.svg", "menu-archive.svg", "menu-cast.svg"], "Travel menu");
+    assertOrdered(travelHtml, textMenuOrder, "Travel text menu");
+    assert.ok(!travelHtml.includes("home-menu-label-img"));
     assert.ok(archiveHtml.includes("archiveSearch"));
     assert.ok(archiveHtml.includes("archive-body"));
     assert.ok(archiveHtml.includes("날짜별 회차 방송 내용"));
     assert.ok(archiveHtml.includes('href="/travel-info.html" aria-label="정보"'));
     assert.ok(archiveHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
-    assertOrdered(archiveHtml, ["menu-info.svg", "menu-scenario.svg", "menu-archive.svg", "menu-cast.svg"], "Archive menu");
+    assertOrdered(archiveHtml, textMenuOrder, "Archive text menu");
+    assert.ok(!archiveHtml.includes("home-menu-label-img"));
     assert.ok(archiveHtml.includes("/archive.js"));
     const castHtml = await requestText("/cast.html");
     assert.ok(castHtml.includes("cast-park-junggyu.png"));
     assert.ok(castHtml.includes("cast-kang-wanggyu.png"));
     assert.ok(castHtml.includes("cast-body"));
-    assert.ok(castHtml.includes("menu-info.svg"));
-    assert.ok(castHtml.includes("menu-cast.svg"));
-    assert.ok(castHtml.includes("menu-archive.svg"));
-    assert.ok(castHtml.includes("menu-scenario.svg"));
     assert.ok(castHtml.includes('href="/travel-info.html" aria-label="정보"'));
     assert.ok(castHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
-    assertOrdered(castHtml, ["menu-info.svg", "menu-scenario.svg", "menu-archive.svg", "menu-cast.svg"], "Cast menu");
+    assertOrdered(castHtml, textMenuOrder, "Cast text menu");
+    assert.ok(!castHtml.includes("home-menu-label-img"));
     assert.ok(castHtml.includes("회차별 게스트"));
     assert.ok(castHtml.includes("김원섭"));
     assert.ok(castHtml.includes("11회"));
@@ -216,7 +221,8 @@ async function main() {
     assert.ok(episodeHtml.includes("episodeRoot"));
     assert.ok(episodeHtml.includes('href="/travel-info.html" aria-label="정보"'));
     assert.ok(episodeHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
-    assertOrdered(episodeHtml, ["menu-info.svg", "menu-scenario.svg", "menu-archive.svg", "menu-cast.svg"], "Episode menu");
+    assertOrdered(episodeHtml, textMenuOrder, "Episode text menu");
+    assert.ok(!episodeHtml.includes("home-menu-label-img"));
     assert.ok(css.includes("archive-section"));
     assert.ok(css.includes("archive-page-main"));
     assert.ok(css.includes("archive-group h3 a"));
