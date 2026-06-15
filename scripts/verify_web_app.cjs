@@ -152,25 +152,31 @@ async function main() {
       'aria-label="회차보기">회차보기</a>',
       'aria-label="출연진">출연진</a>',
     ];
+    const homeMenuOrder = [
+      'href="/travel-info.html">정보</a>',
+      'href="https://broad-script.vercel.app">시나리오</a>',
+      'href="/archive.html">회차보기</a>',
+      'href="/cast.html">출연진</a>',
+    ];
 
     assert.ok(homeHtml.includes("riding-star-main.png"));
     assert.ok(homeHtml.includes("jun6-travel-poster"));
     assert.ok(homeHtml.includes("정보"));
     assert.ok(!homeHtml.includes("여행정보"));
     assert.ok(!homeHtml.includes("종합정보"));
-    assert.ok(homeHtml.includes("menu-info.svg"));
-    assert.ok(homeHtml.includes("menu-cast.svg"));
-    assert.ok(homeHtml.includes("menu-archive.svg"));
-    assert.ok(homeHtml.includes("menu-scenario.svg"));
+    assert.ok(!homeHtml.includes("menu-info.svg"));
+    assert.ok(!homeHtml.includes("menu-cast.svg"));
+    assert.ok(!homeHtml.includes("menu-archive.svg"));
+    assert.ok(!homeHtml.includes("menu-scenario.svg"));
     assert.ok(homeHtml.includes("poster-mobile-top"));
     assert.ok(homeHtml.includes("poster-mobile-bottom"));
     assert.ok(homeHtml.includes("모바일 상단 바로가기"));
     assert.ok(homeHtml.includes("모바일 하단 바로가기"));
-    assert.ok(homeHtml.includes('href="/travel-info.html" aria-label="정보"'));
-    assert.ok(homeHtml.includes('href="https://broad-script.vercel.app" aria-label="시나리오"'));
+    assert.ok(homeHtml.includes('href="/travel-info.html">정보</a>'));
+    assert.ok(homeHtml.includes('href="https://broad-script.vercel.app">시나리오</a>'));
     assert.ok(!homeHtml.includes("menu-jeonjufm.svg"));
     assert.ok(!homeHtml.includes("https://jcfm.kr"));
-    assertOrdered(homeHtml, ["menu-info.svg", "menu-scenario.svg", "menu-archive.svg", "menu-cast.svg"], "Home menu");
+    assertOrdered(homeHtml, homeMenuOrder, "Home menu");
     assert.ok(homeHtml.includes("/archive.html"));
     assert.ok(travelHtml.includes("travel-body"));
     assert.ok(travelHtml.includes("정보"));
