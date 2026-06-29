@@ -158,9 +158,23 @@ async function main() {
       'href="/archive.html">회차보기</a>',
       'href="/cast.html">출연진</a>',
     ];
+    const mainSequenceVideos = [
+      "/assets/main-sequence/riding-intro-01.mp4",
+      "/assets/main-sequence/riding-intro-02.mp4",
+      "/assets/main-sequence/riding-intro-03.mp4",
+      "/assets/main-sequence/riding-intro-04.mp4",
+    ];
 
     assert.ok(homeHtml.includes("riding-star-main.png"));
     assert.ok(homeHtml.includes("jun6-travel-poster"));
+    assert.ok(homeHtml.includes("poster-sequence"));
+    assert.ok(homeHtml.includes("poster-media-stack"));
+    assert.ok(homeHtml.includes("poster-final-image"));
+    assert.ok(homeHtml.includes("poster-replay-button"));
+    mainSequenceVideos.forEach((videoPath) => {
+      assert.ok(homeHtml.includes(videoPath), `${videoPath} should be in home HTML.`);
+      assert.ok(fs.existsSync(path.join(root, "public", videoPath)), `${videoPath} should exist.`);
+    });
     assert.ok(homeHtml.includes("정보"));
     assert.ok(!homeHtml.includes("여행정보"));
     assert.ok(!homeHtml.includes("종합정보"));
@@ -244,12 +258,16 @@ async function main() {
     assert.ok(css.includes("info-browser"));
     assert.ok(css.includes("info-preview-frame"));
     assert.ok(css.includes("poster-mobile-nav"));
+    assert.ok(css.includes("poster-media-stack"));
+    assert.ok(css.includes("poster-sequence-status"));
     assert.ok(css.includes("display: none"));
     assert.ok(css.includes(".poster-radio-hotspot"));
     assert.ok(css.includes("grid-template-columns: repeat(2, minmax(0, 1fr))"));
     assert.ok(css.includes("episode-viewer"));
     assert.ok(homeJs.includes("parseEpisodeDate"));
     assert.ok(homeJs.includes("loadHomeStats"));
+    assert.ok(homeJs.includes("activateSequenceVideo"));
+    assert.ok(homeJs.includes("showFinalPoster"));
     assert.ok(archiveJs.includes("/episode.html"));
     assert.ok(archiveJs.includes("archiveList"));
     assert.ok(archiveJs.includes("archiveDateHref"));

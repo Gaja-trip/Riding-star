@@ -90,3 +90,107 @@ async function loadHomeStats() {
 }
 
 loadHomeStats();
+
+const posterSequence = document.querySelector(".poster-sequence");
+const sequenceVideos = [...document.querySelectorAll(".poster-sequence-video")];
+const posterFinalImage = document.querySelector(".poster-final-image");
+const posterReplayButton = document.querySelector(".poster-replay-button");
+const sequenceCurrent = document.querySelector(".poster-sequence-current");
+const sequenceProgress = document.querySelector(".poster-sequence-line span");
+
+let activeSequenceIndex = 0;
+let sequenceFinished = false;
+
+function resetSequenceVideo(video) {
+  try {
+    video.currentTime = 0;
+  } catch (error) {
+    // Some browsers reject early seeks before metadata is available.
+  }
+}
+
+function updateSequenceProgress(video) {
+  if (!sequenceProgress || !sequenceCurrent) return;
+
+  const total = Math.max(sequenceVideos.length, 1);
+  const duration = Number(video?.duration || 0);
+  const currentTime = Number(video?.currentTime || 0);
+  const ratio = duration > 0 ? Math.min(currentTime / duration, 1) : 0;
+  const progress = ((activeSequenceIndex + ratio) / total) * 100;
+
+  sequenceCurrent.textContent = String(Math.min(activeSequenceIndex + 1, total)).padStart(2, "0");
+  sequenceProgress.style.width = `${Math.max(progress, 100 / total / 4)}%`;
+}
+
+function activateSequenceVideo(index) {
+  const video = sequenceVideos[index];
+  if (!video || sequenceFinished) return;
+
+  activeSequenceIndex = index;
+  posterSequence?.classList.remove("is-final");
+  posterFinalImage?.classList.remove("is-active");
+
+  sequenceVideos.forEach((item, itemIndex) => {
+    const isActive = itemIndex === index;
+    item.classList.toggle("is-active", isActive);
+    item.pause();
+    if (!isActive) resetSequenceVideo(item);
+  });
+
+  video.muted = true;
+  video.playsInline = true;
+  resetSequenceVideo(video);
+  updateSequenceProgress(video);
+
+  const playAttempt = video.play();
+  if (playAttempt && typeof playAttempt.catch === "function") {
+    playAttempt.catch(() => {
+      if (!sequenceFinished) showFinalPoster();
+    });
+  }
+}
+
+function showFinalPoster() {
+  sequenceFinished = true;
+  sequenceVideos.forEach((video) => {
+    video.pause();
+    video.classList.remove("is-active");
+  });
+  posterFinalImage?.classList.add("is-active");
+  posterSequence?.classList.add("is-final");
+  if (sequenceCurrent) sequenceCurrent.textContent = String(sequenceVideos.length).padStart(2, "0");
+  if (sequenceProgress) sequenceProgress.style.width = "100%";
+}
+
+function replayPosterSequence() {
+  sequenceFinished = false;
+  activateSequenceVideo(0);
+}
+
+sequenceVideos.forEach((video, index) => {
+  video.addEventListener("timeupdate", () => updateSequenceProgress(video));
+  video.addEventListener("ended", () => {
+    if (index < sequenceVideos.length - 1) {
+      activateSequenceVideo(index + 1);
+      return;
+    }
+
+    showFinalPoster();
+  });
+  video.addEventListener("error", () => {
+    if (index < sequenceVideos.length - 1) {
+      activateSequenceVideo(index + 1);
+      return;
+    }
+
+    showFinalPoster();
+  });
+});
+
+posterReplayButton?.addEventListener("click", replayPosterSequence);
+
+if (sequenceVideos.length > 0) {
+  activateSequenceVideo(0);
+} else {
+  showFinalPoster();
+}
