@@ -165,11 +165,11 @@ async function main() {
       "/assets/main-sequence/riding-intro-04.mp4",
     ];
 
-    assert.ok(homeHtml.includes("riding-star-main.png"));
-    assert.ok(homeHtml.includes("jun6-travel-poster"));
+    assert.ok(!homeHtml.includes("riding-star-main.png"));
+    assert.ok(!homeHtml.includes("jun6-travel-poster"));
     assert.ok(homeHtml.includes("poster-sequence"));
     assert.ok(homeHtml.includes("poster-media-stack"));
-    assert.ok(homeHtml.includes("poster-final-image"));
+    assert.ok(!homeHtml.includes("poster-final-image"));
     assert.ok(homeHtml.includes("poster-replay-button"));
     mainSequenceVideos.forEach((videoPath) => {
       assert.ok(homeHtml.includes(videoPath), `${videoPath} should be in home HTML.`);
@@ -267,7 +267,8 @@ async function main() {
     assert.ok(homeJs.includes("parseEpisodeDate"));
     assert.ok(homeJs.includes("loadHomeStats"));
     assert.ok(homeJs.includes("activateSequenceVideo"));
-    assert.ok(homeJs.includes("showFinalPoster"));
+    assert.ok(homeJs.includes("playNextSequenceVideo"));
+    assert.ok(!homeJs.includes("showFinalPoster"));
     assert.ok(archiveJs.includes("/episode.html"));
     assert.ok(archiveJs.includes("archiveList"));
     assert.ok(archiveJs.includes("archiveDateHref"));

@@ -93,7 +93,6 @@ loadHomeStats();
 
 const posterSequence = document.querySelector(".poster-sequence");
 const sequenceVideos = [...document.querySelectorAll(".poster-sequence-video")];
-const posterFinalImage = document.querySelector(".poster-final-image");
 const posterReplayButton = document.querySelector(".poster-replay-button");
 const sequenceCurrent = document.querySelector(".poster-sequence-current");
 const sequenceProgress = document.querySelector(".poster-sequence-line span");
@@ -128,7 +127,6 @@ function activateSequenceVideo(index) {
 
   activeSequenceIndex = index;
   posterSequence?.classList.remove("is-final");
-  posterFinalImage?.classList.remove("is-active");
 
   sequenceVideos.forEach((item, itemIndex) => {
     const isActive = itemIndex === index;
@@ -145,21 +143,19 @@ function activateSequenceVideo(index) {
   const playAttempt = video.play();
   if (playAttempt && typeof playAttempt.catch === "function") {
     playAttempt.catch(() => {
-      if (!sequenceFinished) showFinalPoster();
+      if (!sequenceFinished) playNextSequenceVideo(index);
     });
   }
 }
 
-function showFinalPoster() {
-  sequenceFinished = true;
-  sequenceVideos.forEach((video) => {
-    video.pause();
-    video.classList.remove("is-active");
-  });
-  posterFinalImage?.classList.add("is-active");
-  posterSequence?.classList.add("is-final");
-  if (sequenceCurrent) sequenceCurrent.textContent = String(sequenceVideos.length).padStart(2, "0");
-  if (sequenceProgress) sequenceProgress.style.width = "100%";
+function playNextSequenceVideo(index) {
+  if (sequenceVideos.length === 0) {
+    sequenceFinished = true;
+    return;
+  }
+
+  const nextIndex = (index + 1) % sequenceVideos.length;
+  activateSequenceVideo(nextIndex);
 }
 
 function replayPosterSequence() {
@@ -170,20 +166,10 @@ function replayPosterSequence() {
 sequenceVideos.forEach((video, index) => {
   video.addEventListener("timeupdate", () => updateSequenceProgress(video));
   video.addEventListener("ended", () => {
-    if (index < sequenceVideos.length - 1) {
-      activateSequenceVideo(index + 1);
-      return;
-    }
-
-    showFinalPoster();
+    playNextSequenceVideo(index);
   });
   video.addEventListener("error", () => {
-    if (index < sequenceVideos.length - 1) {
-      activateSequenceVideo(index + 1);
-      return;
-    }
-
-    showFinalPoster();
+    playNextSequenceVideo(index);
   });
 });
 
@@ -192,5 +178,5 @@ posterReplayButton?.addEventListener("click", replayPosterSequence);
 if (sequenceVideos.length > 0) {
   activateSequenceVideo(0);
 } else {
-  showFinalPoster();
+  sequenceFinished = true;
 }

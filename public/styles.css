@@ -82,17 +82,14 @@ body.travel-body > * {
   display: grid;
   min-height: 100svh;
   place-items: center;
-  background:
-    linear-gradient(118deg, rgba(11, 63, 122, 0.5) 0 22%, transparent 22% 48%, rgba(29, 122, 100, 0.36) 48% 70%, transparent 70% 100%),
-    repeating-linear-gradient(126deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 42px),
-    linear-gradient(142deg, #07141c 0%, #113b49 45%, #edf4ef 100%);
-  padding: 12px;
+  background: #07141c;
+  padding: 0;
 }
 
 .poster-stage {
   display: grid;
   width: 100%;
-  min-height: calc(100svh - 24px);
+  min-height: 100svh;
   place-items: center;
 }
 
@@ -104,14 +101,14 @@ body.travel-body > * {
 .poster-frame {
   position: relative;
   overflow: hidden;
-  width: min(calc(100vw - 24px), 1480px);
-  height: min(calc(100svh - 24px), 860px);
-  min-height: 560px;
-  aspect-ratio: 16 / 9;
-  border: 1px solid rgba(255, 255, 255, 0.46);
-  border-radius: 8px;
+  width: 100vw;
+  height: 100svh;
+  min-height: 100svh;
+  aspect-ratio: auto;
+  border: 0;
+  border-radius: 0;
   background: #07141c;
-  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.36);
+  box-shadow: none;
 }
 
 .poster-media-stack {
@@ -136,34 +133,14 @@ body.travel-body > * {
   transform: scale(1);
 }
 
-.poster-final-image {
-  object-position: center;
-}
-
-.poster-final-image.is-active {
-  animation: poster-final-reveal 1600ms ease both;
-}
-
-@keyframes poster-final-reveal {
-  from {
-    filter: saturate(0.82) contrast(0.96);
-    transform: scale(1.075);
-  }
-
-  to {
-    filter: saturate(1) contrast(1);
-    transform: scale(1);
-  }
-}
-
 .poster-dynamic-shade {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(3, 16, 24, 0.64) 0%, rgba(3, 16, 24, 0.26) 38%, rgba(3, 16, 24, 0.08) 67%, rgba(3, 16, 24, 0.28) 100%),
-    linear-gradient(180deg, rgba(3, 16, 24, 0.5) 0%, transparent 32%, rgba(3, 16, 24, 0.44) 100%);
+    linear-gradient(90deg, rgba(3, 16, 24, 0.68) 0%, rgba(3, 16, 24, 0.24) 38%, rgba(3, 16, 24, 0.06) 67%, rgba(3, 16, 24, 0.34) 100%),
+    linear-gradient(180deg, rgba(3, 16, 24, 0.52) 0%, transparent 34%, rgba(3, 16, 24, 0.48) 100%);
 }
 
 .poster-top-menu {
@@ -284,18 +261,6 @@ body.travel-body > * {
   transform: translateY(-1px);
 }
 
-.poster-sequence.is-final .poster-hero-copy,
-.poster-sequence.is-final .poster-sequence-status {
-  opacity: 0;
-  transform: translateY(14px);
-  pointer-events: none;
-}
-
-.poster-sequence.is-final .poster-dynamic-shade {
-  background:
-    linear-gradient(180deg, rgba(3, 16, 24, 0.18) 0%, transparent 28%, rgba(3, 16, 24, 0.12) 100%);
-}
-
 .poster-brand,
 .poster-top-menu nav {
   display: flex;
@@ -397,7 +362,7 @@ body.travel-body > * {
   flex: 1 1 auto;
   flex-wrap: nowrap;
   justify-content: flex-end;
-  gap: clamp(12px, 2vw, 24px);
+  gap: clamp(10px, 1.6vw, 22px);
   min-width: 0;
   pointer-events: auto;
 }
@@ -407,16 +372,20 @@ body.travel-body > * {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #0b3f7a;
-  font-size: clamp(14px, 1.45vw, 18px);
-  font-weight: 800;
+  color: #ffffff;
+  font-size: clamp(15px, 1.5vw, 20px);
+  font-weight: 900;
   line-height: 1;
-  min-height: 28px;
-  background: transparent;
-  padding: 5px 0;
+  min-height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 999px;
+  background: rgba(4, 21, 30, 0.44);
+  padding: 9px clamp(12px, 1.4vw, 18px);
   text-decoration: none;
-  text-shadow: none;
-  transition: color 160ms ease, transform 160ms ease;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(10px);
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
   white-space: nowrap;
 }
 
@@ -437,12 +406,16 @@ body.travel-body > * {
 
 .poster-top-menu nav a:nth-child(1),
 .poster-top-menu nav a:nth-child(3) {
-  color: #0d3d7a;
+  border-color: rgba(80, 210, 255, 0.7);
+  background: rgba(5, 80, 135, 0.72);
+  color: #e8fbff;
 }
 
 .poster-top-menu nav a:nth-child(2),
 .poster-top-menu nav a:nth-child(4) {
-  color: #1f782d;
+  border-color: rgba(111, 238, 169, 0.72);
+  background: rgba(12, 117, 80, 0.74);
+  color: #edfff5;
 }
 
 .poster-top-menu nav a::after {
@@ -460,8 +433,10 @@ body.travel-body > * {
 }
 
 .poster-top-menu nav a:hover {
-  color: #f06d16;
-  transform: translateY(-2px) scale(1.08);
+  border-color: rgba(255, 255, 255, 0.88);
+  background: rgba(241, 138, 0, 0.9);
+  color: #ffffff;
+  transform: translateY(-2px) scale(1.06);
 }
 
 .poster-top-menu nav a:hover::after,
