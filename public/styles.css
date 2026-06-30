@@ -157,47 +157,6 @@ body.travel-body > * {
   pointer-events: none;
 }
 
-.poster-hero-copy {
-  position: absolute;
-  left: clamp(28px, 5vw, 76px);
-  bottom: clamp(64px, 10vh, 110px);
-  z-index: 6;
-  max-width: min(560px, 52%);
-  color: #ffffff;
-  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.38);
-  transition: opacity 600ms ease, transform 600ms ease;
-}
-
-.poster-hero-kicker {
-  display: inline-flex;
-  margin-bottom: 12px;
-  color: #93ddc9;
-  font-size: clamp(13px, 1.3vw, 18px);
-  font-weight: 900;
-  letter-spacing: 0;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.poster-hero-copy strong {
-  display: block;
-  max-width: 11em;
-  color: #ffffff;
-  font-size: clamp(34px, 5vw, 74px);
-  font-weight: 1000;
-  letter-spacing: 0;
-  line-height: 1.02;
-}
-
-.poster-hero-copy p {
-  max-width: 34em;
-  margin: 18px 0 0;
-  color: rgba(255, 255, 255, 0.88);
-  font-size: clamp(15px, 1.35vw, 20px);
-  font-weight: 700;
-  line-height: 1.5;
-}
-
 .poster-sequence-status {
   position: absolute;
   right: clamp(28px, 5vw, 76px);
@@ -376,16 +335,16 @@ body.travel-body > * {
   font-size: clamp(15px, 1.5vw, 20px);
   font-weight: 900;
   line-height: 1;
-  min-height: 38px;
-  border: 1px solid rgba(255, 255, 255, 0.34);
-  border-radius: 999px;
-  background: rgba(4, 21, 30, 0.44);
-  padding: 9px clamp(12px, 1.4vw, 18px);
+  min-height: 28px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 5px 0;
   text-decoration: none;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.42);
-  backdrop-filter: blur(10px);
-  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+  box-shadow: none;
+  text-shadow: none;
+  backdrop-filter: none;
+  transition: opacity 160ms ease, transform 160ms ease;
   white-space: nowrap;
 }
 
@@ -406,47 +365,32 @@ body.travel-body > * {
 
 .poster-top-menu nav a:nth-child(1),
 .poster-top-menu nav a:nth-child(3) {
-  border-color: rgba(80, 210, 255, 0.7);
-  background: rgba(5, 80, 135, 0.72);
-  color: #e8fbff;
+  color: #ffffff;
 }
 
 .poster-top-menu nav a:nth-child(2),
 .poster-top-menu nav a:nth-child(4) {
-  border-color: rgba(111, 238, 169, 0.72);
-  background: rgba(12, 117, 80, 0.74);
-  color: #edfff5;
+  color: #ffffff;
 }
 
 .poster-top-menu nav a::after {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  border-radius: 999px;
-  background: #f18a00;
-  content: "";
-  opacity: 0;
-  transform: scaleX(0.35);
-  transition: opacity 160ms ease, transform 160ms ease;
+  display: none;
+  content: none;
 }
 
 .poster-top-menu nav a:hover {
-  border-color: rgba(255, 255, 255, 0.88);
-  background: rgba(241, 138, 0, 0.9);
   color: #ffffff;
-  transform: translateY(-2px) scale(1.06);
+  opacity: 0.78;
+  transform: translateY(-1px);
 }
 
 .poster-top-menu nav a:hover::after,
 .poster-top-menu nav a:focus-visible::after {
-  opacity: 1;
-  transform: scaleX(1);
+  display: none;
 }
 
 .poster-top-menu nav a:active {
-  transform: translateY(0) scale(1.06);
+  transform: translateY(0);
 }
 
 .poster-radio-hotspot {
@@ -1995,31 +1939,6 @@ body.viewer-body .home-nav {
   .poster-dynamic-shade {
     background:
       linear-gradient(180deg, rgba(3, 16, 24, 0.3) 0%, rgba(3, 16, 24, 0.04) 38%, rgba(3, 16, 24, 0.62) 100%);
-  }
-
-  .poster-hero-copy {
-    right: 18px;
-    bottom: 52px;
-    left: 18px;
-    max-width: none;
-  }
-
-  .poster-hero-kicker {
-    margin-bottom: 8px;
-    font-size: 12px;
-  }
-
-  .poster-hero-copy strong {
-    max-width: 9em;
-    font-size: clamp(24px, 7.5vw, 34px);
-    line-height: 1.06;
-  }
-
-  .poster-hero-copy p {
-    max-width: 21em;
-    margin-top: 10px;
-    font-size: clamp(12px, 3.2vw, 14px);
-    line-height: 1.45;
   }
 
   .poster-sequence-status {
