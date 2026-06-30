@@ -122,15 +122,21 @@ body.travel-body > * {
   inset: 0;
   width: 100%;
   height: 100%;
+  background: #07141c;
   object-fit: cover;
+  object-position: center;
   opacity: 0;
-  transform: scale(1.045);
-  transition: opacity 900ms ease, transform 2200ms ease;
+  transform: translate3d(0, 0, 0) scale(1.018);
+  backface-visibility: hidden;
+  filter: contrast(1.04) saturate(1.06) brightness(1.01);
+  image-rendering: auto;
+  transition: opacity 900ms ease, transform 2200ms ease, filter 900ms ease;
+  will-change: opacity, transform;
 }
 
 .poster-media-item.is-active {
   opacity: 1;
-  transform: scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 .poster-dynamic-shade {

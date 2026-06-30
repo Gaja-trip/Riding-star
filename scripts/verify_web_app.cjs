@@ -163,6 +163,7 @@ async function main() {
       "/assets/main-sequence/riding-intro-02.mp4",
       "/assets/main-sequence/riding-intro-03.mp4",
       "/assets/main-sequence/riding-intro-04.mp4",
+      "/assets/main-sequence/jeonju-community-radio-promo-draft.mp4",
     ];
 
     assert.ok(!homeHtml.includes("riding-star-main.png"));
@@ -259,6 +260,7 @@ async function main() {
     assert.ok(css.includes("info-preview-frame"));
     assert.ok(css.includes("poster-mobile-nav"));
     assert.ok(css.includes("poster-media-stack"));
+    assert.ok(css.includes("contrast(1.04) saturate(1.06) brightness(1.01)"));
     assert.ok(css.includes("poster-sequence-status"));
     assert.ok(css.includes("display: none"));
     assert.ok(css.includes(".poster-radio-hotspot"));
@@ -268,6 +270,7 @@ async function main() {
     assert.ok(homeJs.includes("loadHomeStats"));
     assert.ok(homeJs.includes("activateSequenceVideo"));
     assert.ok(homeJs.includes("playNextSequenceVideo"));
+    assert.ok(homeJs.includes("syncSequenceTotal"));
     assert.ok(!homeJs.includes("showFinalPoster"));
     assert.ok(archiveJs.includes("/episode.html"));
     assert.ok(archiveJs.includes("archiveList"));

@@ -95,10 +95,17 @@ const posterSequence = document.querySelector(".poster-sequence");
 const sequenceVideos = [...document.querySelectorAll(".poster-sequence-video")];
 const posterReplayButton = document.querySelector(".poster-replay-button");
 const sequenceCurrent = document.querySelector(".poster-sequence-current");
+const sequenceTotal = document.querySelector(".poster-sequence-total");
 const sequenceProgress = document.querySelector(".poster-sequence-line span");
 
 let activeSequenceIndex = 0;
 let sequenceFinished = false;
+
+function syncSequenceTotal() {
+  if (sequenceTotal) {
+    sequenceTotal.textContent = String(Math.max(sequenceVideos.length, 1)).padStart(2, "0");
+  }
+}
 
 function resetSequenceVideo(video) {
   try {
@@ -176,7 +183,9 @@ sequenceVideos.forEach((video, index) => {
 posterReplayButton?.addEventListener("click", replayPosterSequence);
 
 if (sequenceVideos.length > 0) {
+  syncSequenceTotal();
   activateSequenceVideo(0);
 } else {
+  syncSequenceTotal();
   sequenceFinished = true;
 }
