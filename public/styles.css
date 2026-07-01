@@ -396,10 +396,10 @@ body.travel-body > * {
   display: grid;
   gap: 7px;
   min-width: 176px;
-  border: 1px solid rgba(255, 255, 255, 0.34);
+  border: 1px solid rgba(220, 244, 246, 0.24);
   border-radius: 8px;
-  background: rgba(3, 18, 27, 0.76);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
+  background: rgba(5, 18, 26, 0.68);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.3);
   opacity: 0;
   padding: 10px;
   pointer-events: none;
@@ -429,13 +429,15 @@ body.travel-body > * {
   font-weight: 900;
   line-height: 1;
   min-height: 38px;
-  border: 1px solid rgba(80, 210, 255, 0.26);
+  border: 1px solid rgba(220, 244, 246, 0.22);
   border-radius: 7px;
-  background: rgba(5, 80, 135, 0.54);
+  background: rgba(12, 34, 43, 0.66);
   padding: 10px 13px;
   text-decoration: none;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.36);
+  box-shadow:
+    inset 3px 0 0 rgba(147, 221, 201, 0.38),
+    0 8px 18px rgba(0, 0, 0, 0.16);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.32);
   transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
   white-space: nowrap;
 }
@@ -457,22 +459,31 @@ body.travel-body > * {
 
 .poster-menu-panel a:nth-child(1),
 .poster-menu-panel a:nth-child(3) {
-  border-color: rgba(80, 210, 255, 0.48);
-  background: rgba(5, 80, 135, 0.62);
-  color: #e8fbff;
+  border-color: rgba(104, 186, 217, 0.34);
+  background: rgba(13, 53, 70, 0.64);
+  box-shadow:
+    inset 3px 0 0 rgba(80, 210, 255, 0.46),
+    0 8px 18px rgba(0, 0, 0, 0.16);
+  color: #e7f9ff;
 }
 
 .poster-menu-panel a:nth-child(2),
 .poster-menu-panel a:nth-child(4) {
-  border-color: rgba(111, 238, 169, 0.5);
-  background: rgba(12, 117, 80, 0.64);
+  border-color: rgba(130, 215, 177, 0.34);
+  background: rgba(17, 66, 49, 0.64);
+  box-shadow:
+    inset 3px 0 0 rgba(111, 238, 169, 0.48),
+    0 8px 18px rgba(0, 0, 0, 0.16);
   color: #edfff5;
 }
 
 .poster-menu-panel a:hover,
 .poster-menu-panel a:focus-visible {
-  border-color: rgba(255, 255, 255, 0.88);
-  background: rgba(241, 138, 0, 0.88);
+  border-color: rgba(255, 223, 164, 0.82);
+  background: rgba(168, 94, 23, 0.76);
+  box-shadow:
+    inset 3px 0 0 rgba(255, 201, 104, 0.82),
+    0 10px 22px rgba(0, 0, 0, 0.22);
   color: #ffffff;
   transform: translateY(-1px);
 }
