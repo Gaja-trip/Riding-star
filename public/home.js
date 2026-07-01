@@ -189,3 +189,29 @@ if (sequenceVideos.length > 0) {
   syncSequenceTotal();
   sequenceFinished = true;
 }
+
+const posterMenuPopover = document.querySelector(".poster-menu-popover");
+const posterMenuTrigger = document.querySelector(".poster-menu-trigger");
+
+function setPosterMenuOpen(isOpen) {
+  posterMenuPopover?.classList.toggle("is-open", isOpen);
+  posterMenuTrigger?.setAttribute("aria-expanded", String(isOpen));
+}
+
+posterMenuTrigger?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  setPosterMenuOpen(!posterMenuPopover?.classList.contains("is-open"));
+});
+
+document.addEventListener("click", (event) => {
+  if (!posterMenuPopover?.contains(event.target)) {
+    setPosterMenuOpen(false);
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    setPosterMenuOpen(false);
+    posterMenuTrigger?.focus();
+  }
+});

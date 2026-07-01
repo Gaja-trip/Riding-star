@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Riding-star</title>
-    <link rel="stylesheet" href="/styles.css?v=promo-video-quality">
+    <link rel="stylesheet" href="/styles.css?v=hover-menu-icon">
   </head>
   <body class="home-body">
     <main class="poster-home" aria-label="Riding-star 메인">
@@ -35,12 +35,19 @@
             <a class="poster-brand" href="/" aria-label="Riding-star 메인페이지로 이동">
               <img class="site-logo-img poster-logo-img" src="/assets/riding-star-logo-transparent.png" alt="라이딩스타 Riding Star">
             </a>
-            <nav aria-label="상단 메뉴">
-              <a href="/travel-info.html">정보</a>
-              <a href="https://broad-script.vercel.app">시나리오</a>
-              <a href="/archive.html">회차보기</a>
-              <a href="/cast.html">출연진</a>
-            </nav>
+            <div class="poster-menu-popover">
+              <button class="poster-menu-trigger" type="button" aria-label="메뉴 열기" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
+              <nav class="poster-menu-panel" aria-label="상단 메뉴">
+                <a href="/travel-info.html">정보</a>
+                <a href="https://broad-script.vercel.app">시나리오</a>
+                <a href="/archive.html">회차보기</a>
+                <a href="/cast.html">출연진</a>
+              </nav>
+            </div>
           </div>
 
           <div class="poster-sequence-status" aria-hidden="true">
@@ -68,6 +75,6 @@
       </section>
     </main>
 
-    <script src="/home.js?v=promo-video-quality"></script>
+    <script src="/home.js?v=hover-menu-icon"></script>
   </body>
 </html>
