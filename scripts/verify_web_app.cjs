@@ -163,6 +163,7 @@ async function main() {
       "/assets/main-sequence/riding-intro-02.mp4",
       "/assets/main-sequence/riding-intro-03.mp4",
       "/assets/main-sequence/riding-intro-04.mp4",
+      "/assets/main-sequence/bicycle-radio-promo-no-korean-text.mp4",
       "/assets/main-sequence/jeonju-community-radio-promo-draft.mp4",
     ];
 
